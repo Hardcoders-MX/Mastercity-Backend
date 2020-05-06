@@ -2,6 +2,7 @@ const express = require('express');
 const logger = require('morgan');
 const debug = require('debug')('app');
 
+const network = require('./network/routes');
 const config = require('./config');
 
 const app = express();
@@ -13,6 +14,8 @@ app.use(express.urlencoded({ extended: false }));
 app.get('/', (req, res, next) => {
   res.send('Hello world from project MORO')
 });
+
+network(app);
 
 app.listen(config.srv.port, () => {
   debug(`server runing in http://localhost:${config.srv.port}`);
