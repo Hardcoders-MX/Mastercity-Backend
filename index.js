@@ -2,8 +2,9 @@ const express = require('express');
 const logger = require('morgan');
 const debug = require('debug')('app');
 
+const config = require('./config');
 
-var app = express();
+const app = express();
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -13,6 +14,6 @@ app.get('/', (req, res, next) => {
   res.send('Hello world from project MORO')
 });
 
-app.listen(3000, () => {
-  debug('server is runing in http://localhost:3000')
+app.listen(config.srv.port, () => {
+  debug(`server runing in http://localhost:${config.srv.port}`);
 });
