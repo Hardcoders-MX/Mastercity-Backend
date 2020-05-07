@@ -1,6 +1,6 @@
 const express = require('express');
 const logger = require('morgan');
-const debug = require('debug')('app');
+const debug = require('debug')('app:');
 const db = require('./databases/mongodb');
 
 const routes = require('./routes');
@@ -20,8 +20,8 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.get('/', (req, res, next) => {
-  res.send('Hello world from project MORO')
+app.get('/', (req, res) => {
+  res.send('Hello world from project MORO');
 });
 
 routes(app);
