@@ -3,8 +3,8 @@ const express = require('express')
  * Receives a instance of express and apply resource routes
  * @param {express} app 
  */
-const network = (app) => {
+const routes = (app) => {
 
 }
 
-module.expots = network;
+module.exports = routes;
