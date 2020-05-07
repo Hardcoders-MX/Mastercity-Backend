@@ -1,9 +1,10 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express')
+/**
+ * Receives a instance of express and apply resource routes
+ * @param {express} app 
+ */
+const routes = (app) => {
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
-});
+}
 
-module.exports = router;
+module.exports = routes;
