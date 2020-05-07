@@ -8,12 +8,18 @@ Before the start, your must config enviroment variables
 #### Intructions:
 - Copy the file '.env.example'
 - Change the name '.env.example' to '.env'
-- open file and complete the variables
+-Open file and complete the variables
 
 Example
 ```
     NODE_ENV=development
     PORT=8080
+
+    //MongoDB
+    DB_HOST=host.mongodb.net
+    DB_USER=db_user
+    DB_PASSWORD=12345
+    DB_NAME=db_name
 ```
 
 ## Start
