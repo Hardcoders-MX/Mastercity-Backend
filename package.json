@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node index",
-    "dev": "DEBUG=app nodemon index"
+    "dev": "DEBUG=app:* nodemon index"
   },
   "dependencies": {
     "debug": "^4.1.1",
