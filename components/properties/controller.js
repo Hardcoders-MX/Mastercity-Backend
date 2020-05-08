@@ -1,4 +1,3 @@
-const debug = require('debug')('app:properties');
 const serviceProperty = require('./service');
 const { success } = require('../../routes/response');
 

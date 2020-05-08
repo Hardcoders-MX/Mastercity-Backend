@@ -1,3 +1,4 @@
+/* eslint-disable max-classes-per-file */
 /**
  * Create a new error of type 404 not found
  */

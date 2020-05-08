@@ -1,5 +1,5 @@
 const db = require('mongoose');
-const debug = require('debug')('app:db');
+const { info, error } = require('../utils/debug');
 
 db.Promise = global.Promise;
 
@@ -9,9 +9,9 @@ async function connect(url) {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
-    debug('Database successfully connected!');
+    info('Database successfully connected!');
   } catch (err) {
-    debug(`Error establishing a database connection: \n ${err}`);
+    error(`Error establishing a database connection: \n ${err}`);
   }
 }
 
