@@ -4,5 +4,6 @@ const controller = require('./controller');
 const routes = express.Router();
 
 routes.get('/', controller.index);
+routes.get('/:id', controller.show);
 
 module.exports = routes;

@@ -17,7 +17,17 @@ const index = async (req, res, next) => {
   }
 };
 
+const show = async (req, res, next) => {
+  const propertyId = req.params.id;
+  try {
+    const property = await serviceProperty.findById(propertyId);
+    success(res, 'property retrieved', property, 200);
+  } catch (error) {
+    next(error);
+  }
+};
 
 module.exports = {
   index,
+  show,
 };
