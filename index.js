@@ -20,8 +20,8 @@ app.use(logger('dev', { stream: { write: msg => info(msg) } }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.get('/', (req, res, next) => {
-  res.send('Hello world from project MORO')
+app.get('/', (req, res) => {
+  res.send('Hello world from project MORO');
 });
 
 routes(app);

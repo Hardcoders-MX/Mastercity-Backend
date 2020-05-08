@@ -12,28 +12,34 @@ Before we the start, your must config enviroment variables
 
 Example
 ```
-    NODE_ENV=development
-    PORT=8080
+NODE_ENV=development
+PORT=8080
 
-    //MongoDB
-    DB_HOST=host.mongodb.net
-    DB_USER=db_user
-    DB_PASSWORD=12345
-    DB_NAME=db_name
+//MongoDB
+DB_HOST=host.mongodb.net
+DB_USER=db_user
+DB_PASSWORD=12345
+DB_NAME=db_name
 ```
 
 ## Start
 Install dependencies
 ```bash
-    npm install
+npm install
 ```
 
 Run development mode
 ```bash
-    npm run dev
+npm run dev
 ```
 
 Run production mode
 ```bash
-    npm start
+npm start
+```
+
+Run linter and auto fix files
+```bash
+npm run lint
+npm run lint -- --fix
 ```
