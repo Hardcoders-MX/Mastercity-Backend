@@ -82,7 +82,7 @@ const findAll = async (filters) => {
     throw new NotFoundError('Not found properties', 404);
   }
 
-  const totalProperties = await Property.countDocuments({ isDisable: false, isAprove: true });
+  const totalProperties = await Property.countDocuments(query);
   const pagination = {
     totalProperties,
     totalPages: Math.ceil(totalProperties / limit),
