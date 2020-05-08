@@ -1,9 +1,9 @@
 # Project MORO
 
-MORO is the key name the API from project MaterCity
+MORO is a key name for the API in MaterCity project
 
 ## Config the enviroment variables
-Before the start, your must config enviroment variables
+Before we the start, your must config enviroment variables
 
 #### Intructions:
 - Copy the file '.env.example'
