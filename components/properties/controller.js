@@ -17,7 +17,24 @@ const index = async (req, res, next) => {
   }
 };
 
+/**
+ * Response with a new property created
+ * @param {import("express").Request} req
+ * @param {import("express").Response} res
+ * @param {import("express").NextFunction} next
+ */
+const create = async (req, res, next) => {
+  const property = req.body;
+  try {
+    const createdProperty = await serviceProperty.insert(property);
+    success(res, 'property created', createdProperty, 201);
+  } catch (error) {
+    next(error);
+  }
+};
+
 
 module.exports = {
   index,
+  create,
 };
