@@ -1,5 +1,6 @@
 const Property = require('./model');
 const buildParams = require('../../utils/buildParams');
+const { FieldsRequiredError, NotFoundError } = require('../../utils/errors');
 
 /**
  * receive parameters and filter with only valid params
@@ -48,49 +49,40 @@ const validateRequiredParams = (params) => {
   ];
   requiredParams.forEach((field) => {
     if (!params[field]) {
-      throw new Error(`Field ${field}`);
+      throw new FieldsRequiredError(`Field ${field} is required`, 400);
     }
   });
 
   return true;
 };
 
+/**
+ * Find a list of properties with pagination
+ * receive two type of filters in the same object
+ * filter to query in mongo: limit, sortName, sort, page
+ * filters the one property: propertyType, location, rooms,
+ * bathrooms, square, priceMeters, furnish, parking,
+ * swimmingPool, heating, security, cellar, elevator
+ * @param {Object} filters
+ */
 const findAll = async (filters) => {
   const limit = Number(filters.limit) || 10;
   const sortName = filters.sort_name ? String(filters.sort_name) : '_id';
   const sort = Number(filters.sort) || -1;
   const skip = (Number(filters.page || 1) - 1) * limit;
 
-  const validFilters = [
-    'limit',
-    'sort',
-    'sort_name',
-    'page',
-    'propertyType',
-    'location',
-    'rooms',
-    'bathrooms',
-    'square',
-    'priceMeters',
-    'furnish',
-    'parking',
-    'swimmingPool',
-    'heating',
-    'security',
-    'cellar',
-    'elevator',
-  ];
-
-  const query = buildParams(validFilters, filters);
+  const query = validateParams(filters);
+  query.isDisable = false;
+  query.isAprove = true;
   const properties = await Property.find(query).limit(limit).sort({
     [sortName]: sort,
   }).skip(skip);
 
   if (properties.length === 0) {
-    throw new Error('Not found properties');
+    throw new NotFoundError('Not found properties', 404);
   }
 
-  const totalProperties = await Property.countDocuments({ isPublic: true, isActive: true });
+  const totalProperties = await Property.countDocuments({ isDisable: false, isAprove: true });
   const pagination = {
     totalProperties,
     totalPages: Math.ceil(totalProperties / limit),
