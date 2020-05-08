@@ -1,4 +1,5 @@
 const db = require('mongoose');
+const debug = require('debug')('app:db');
 
 db.Promise = global.Promise;
 
@@ -8,13 +9,12 @@ async function connect(url) {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
-    console.log('Database successfully connected!');
-
+    debug('Database successfully connected!');
   } catch (err) {
-    console.error(`Error establishing a database connection: \n ${err}`);
+    debug(`Error establishing a database connection: \n ${err}`);
   }
 }
 
 module.exports = {
-  connect
-}
+  connect,
+};

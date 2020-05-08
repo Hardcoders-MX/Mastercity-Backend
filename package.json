@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "node index",
-    "dev": "DEBUG=app nodemon index"
+		"dev": "DEBUG=app* nodemon index",
+		"lint": "eslint --ext .json --ext .js ./"
   },
   "dependencies": {
     "debug": "^4.1.1",
@@ -14,6 +15,9 @@
     "morgan": "^1.10.0"
   },
   "devDependencies": {
+		"eslint": "^6.8.0",
+		"eslint-config-airbnb-base": "^14.1.0",
+		"eslint-plugin-import": "^2.20.2",
     "nodemon": "^2.0.3"
   },
   "main": "index.js",
