@@ -33,8 +33,25 @@ const create = async (req, res, next) => {
   }
 };
 
+/**
+ * Response with a property
+ * @param {import("express").Request} req
+ * @param {import("express").Response} res
+ * @param {import("express").NextFunction} next
+ */
+const show = async (req, res, next) => {
+  const propertyId = req.params.id;
+  try {
+    const property = await serviceProperty.findById(propertyId);
+    success(res, 'property retrieved', property, 200);
+  } catch (error) {
+    next(error);
+  }
+};
+
 
 module.exports = {
   index,
   create,
+  show,
 };

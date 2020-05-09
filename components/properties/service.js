@@ -111,7 +111,20 @@ const insert = async (property) => {
   return createdProperty;
 };
 
+/**
+ * Find a property by _id
+ * @param {*} propertyId
+ */
+const findById = async (propertyId) => {
+  const property = await Property.findOne({ _id: propertyId, isDisable: false, isAprove: true });
+  if (!property) {
+    throw new Error('not found');
+  }
+  return property;
+};
+
 module.exports = {
   findAll,
+  findById,
   insert,
 };
