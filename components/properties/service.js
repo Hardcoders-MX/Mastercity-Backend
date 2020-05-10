@@ -123,8 +123,30 @@ const findById = async (propertyId) => {
   return property;
 };
 
+/**
+ * Update a property
+ * @param {*} propertyId
+ * @param {*} property
+ */
+const update = async (propertyId, property) => {
+  let updatedProperty = null;
+  if (property.isAprove === true && Object.keys().length === 1) {
+    updatedProperty = await Property.updateOne({ _id: propertyId }, property);
+  } else {
+    const params = validateParams(property);
+    updatedProperty = await Property.updateOne({ _id: propertyId }, params);
+  }
+
+  if (updatedProperty.nModified !== 1) {
+    throw new Error('error to update');
+  }
+
+  return updatedProperty;
+};
+
 module.exports = {
   findAll,
   findById,
   insert,
+  update,
 };
