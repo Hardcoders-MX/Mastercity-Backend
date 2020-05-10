@@ -1,8 +1,9 @@
 const express = require('express');
+
 const router = express.Router();
 
 const {
-  create
+  create,
 } = require('./controller');
 
 router.post('/sign-up', create);

@@ -49,9 +49,26 @@ const show = async (req, res, next) => {
   }
 };
 
+/**
+ * Response with a updated property
+ * @param {import("express").Request} req
+ * @param {import("express").Response} res
+ * @param {import("express").NextFunction} next
+ */
+const update = async (req, res, next) => {
+  const property = req.body;
+  const propertyId = req.params.id;
+  try {
+    const updatedProperty = await serviceProperty.update(propertyId, property);
+    success(res, 'property updated', updatedProperty, 200);
+  } catch (error) {
+    next(error);
+  }
+};
 
 module.exports = {
   index,
   create,
   show,
+  update,
 };

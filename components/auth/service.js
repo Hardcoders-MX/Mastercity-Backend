@@ -56,8 +56,8 @@ const addUser = async (user) => {
   });
 
   return createdUser;
-}
+};
 
 module.exports = {
-  add: addUser
-}
+  add: addUser,
+};
