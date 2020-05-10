@@ -144,9 +144,22 @@ const update = async (propertyId, property) => {
   return updatedProperty;
 };
 
+/**
+ * partial remove a property
+ * @param {any} propertyId
+ */
+const destroy = (propertyId) => {
+  const deletedProperty = Property.updateOne({ _id: propertyId }, { isDisable: true });
+  if (deletedProperty.nModified !== 1) {
+    throw new Error('error to delete');
+  }
+  return deletedProperty;
+};
+
 module.exports = {
   findAll,
   findById,
   insert,
   update,
+  destroy,
 };
