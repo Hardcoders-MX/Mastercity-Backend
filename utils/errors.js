@@ -21,7 +21,19 @@ class FieldsRequiredError extends Error {
   }
 }
 
+/**
+ * Create a new error of type 500
+ */
+class ServerError extends Error {
+  constructor(message = 'error in the server', status = 500) {
+    super(message);
+    this.name = 'Server Error';
+    this.status = status;
+  }
+}
+
 module.exports = {
   NotFoundError,
   FieldsRequiredError,
+  ServerError,
 };
