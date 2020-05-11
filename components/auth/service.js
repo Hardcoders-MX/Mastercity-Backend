@@ -48,7 +48,7 @@ const validateRequiredParams = (params) => {
  */
 const addUser = async (user) => {
   const params = validateParams(user);
-  const isDisable = true;
+  const isDisable = false;
 
   const createdUser = await User.create({
     ...params,
