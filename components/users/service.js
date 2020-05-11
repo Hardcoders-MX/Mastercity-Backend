@@ -1,5 +1,22 @@
 const User = require('../auth/model');
+const buildParams = require('../../utils/buildParams');
 const { ServerError } = require('../../utils/errors');
+
+/**
+ * receive parameters and filter with only valid params
+ * @param {Object} params
+ */
+const validateParams = (params) => {
+  const validParams = [
+    'firstName',
+    'lastName',
+    'email',
+    'password',
+    'userType',
+    'profileType',
+  ];
+  return buildParams(validParams, params);
+};
 
 /**
  * Find a user by id
@@ -13,6 +30,26 @@ const findById = async (userId) => {
   return user;
 };
 
+/**
+ * Update a property
+ * @param {*} userId
+ * @param {*} user
+ */
+const update = async (userId, user) => {
+  const query = { _id: userId, isDisable: false };
+
+  const params = validateParams(user);
+  const updatedUser = await User.updateOne(query, params);
+
+  if (updatedUser.nModified !== 1) throw new ServerError('Error to update user')
+
+  return updatedUser;
+};
+
+/**
+ * partial remove a property
+ * @param {any} userId
+ */
 const disable = async (userId) => {
   const user = await User.updateOne({ _id: userId, isDisable: false }, { isDisable: true });
 
@@ -24,5 +61,6 @@ const disable = async (userId) => {
 
 module.exports = {
   findById,
+  update,
   disable,
 };
