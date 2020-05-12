@@ -5,7 +5,6 @@ const controller = require('./controller');
 const router = express.Router();
 const upload = multer({ dest: 'uploads/' });
 
-router.post('/images', upload.array('media', 10), controller.images);
-router.post('/videos', controller.videos);
+router.post('/', upload.array('media', 5), controller.upload);
 
 module.exports = router;

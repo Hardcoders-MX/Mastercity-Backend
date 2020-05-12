@@ -1,6 +1,7 @@
-const cloudinary = require('cloudinary').v2;
+const uploader = require('../../utils/uploader');
 const removeFile = require('../../utils/removeFile');
 const { FileNotValid } = require('../../utils/errors');
+
 
 /**
  * validate if is a video
@@ -46,19 +47,27 @@ const validateTypeAndSize = (file) => new Promise((resolve, reject) => {
  * validate format of all files
  * @param {*} files
  */
-const validateFiles = (files) => {
+const validFiles = (files) => {
   const validatedFiles = files.map((file) => validateTypeAndSize(file));
   return Promise.all(validatedFiles);
 };
+
+// eslint-disable-next-line camelcase
+const destructureFile = ({ secure_url, resource_type, format }) => (
+  { secure_url, resource_type, format }
+);
 
 /**
  * upload files and save in cloudinary after delete files
  * @param {*} files
  */
 const upload = async (files) => {
-  const validatedFiles = await validateFiles(files);
+  const validatedFiles = await validFiles(files);
+  const uploading = validatedFiles.map((file) => uploader(file));
+  const uploadedFiles = await Promise.all(uploading);
   validatedFiles.forEach((file) => removeFile(file.path));
-  return validatedFiles;
+  const mediaFiles = uploadedFiles.map(destructureFile);
+  return mediaFiles;
 };
 
 module.exports = {
