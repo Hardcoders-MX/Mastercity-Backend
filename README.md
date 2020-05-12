@@ -6,10 +6,10 @@ MORO is a key name for the API in MaterCity project
 Before we the start, your must config enviroment variables
 
 #### Intructions:
-Can to save images and videos you need an account of [cloudinary](https://cloudinary.com/), it add environment variable that cloudinary provided
-
-- Copy the file '.env.example'
-- Change the name '.env.example' to '.env'
+- Create a new folder call `uploads`
+- Can to save images and videos in mode production you need an account of [Cloudinary](https://cloudinary.com/), it add environment variable that cloudinary provide
+- Copy the file `.env.example`
+- Change the name `.env.example` to `.env`
 - Open file and complete the variables
 
 Example
