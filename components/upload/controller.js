@@ -11,6 +11,17 @@ const upload = async (req, res, next) => {
   }
 };
 
+const show = async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    const pathFile = await serviceUpload.findFile(id);
+    res.status(200).sendFile(pathFile);
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   upload,
+  show,
 };

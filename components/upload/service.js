@@ -1,6 +1,8 @@
+const fs = require('fs');
+const path = require('path');
 const uploader = require('../../utils/uploader');
 const removeFile = require('../../utils/removeFile');
-const { FileNotValid } = require('../../utils/errors');
+const { FileNotValid, NotFoundError } = require('../../utils/errors');
 
 
 /**
@@ -69,7 +71,19 @@ const upload = async (files) => {
   const mediaFiles = uploadedFiles.map(destructureFile);
   return mediaFiles;
 };
+/**
+ * find file an retur its path
+ * @param {*} id
+ */
+const findFile = async (id) => new Promise((resolve, reject) => {
+  const pathFile = `uploads/${id}`;
+  fs.exists(pathFile, (exists) => {
+    if (!exists) return reject(new NotFoundError());
+    return resolve(path.resolve(pathFile));
+  });
+});
 
 module.exports = {
   upload,
+  findFile,
 };
