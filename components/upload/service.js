@@ -1,4 +1,5 @@
 const cloudinary = require('cloudinary').v2;
+const removeFile = require('../../utils/removeFile');
 const { FileNotValid } = require('../../utils/errors');
 
 /**
@@ -56,6 +57,7 @@ const validateFiles = (files) => {
  */
 const upload = async (files) => {
   const validatedFiles = await validateFiles(files);
+  validatedFiles.forEach((file) => removeFile(file.path));
   return validatedFiles;
 };
 
