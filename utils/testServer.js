@@ -6,7 +6,7 @@ const testServer = (route) => {
   const app = express();
   app.use(express.json());
   app.use(express.urlencoded({ extended: false }));
-  app.use(route);
+  app.use('/', route);
   return supertest(app);
 };
 
