@@ -32,8 +32,17 @@ class ServerError extends Error {
   }
 }
 
+class FileNotValid extends Error {
+  constructor(message = 'file is not valid', status = 400) {
+    super(message);
+    this.name = 'File not valid';
+    this.status = status;
+  }
+}
+
 module.exports = {
   NotFoundError,
   FieldsRequiredError,
   ServerError,
+  FileNotValid,
 };
