@@ -50,3 +50,10 @@ Run linter and auto fix files
 npm run lint
 npm run lint -- --fix
 ```
+
+Run test test
+```bash
+npm run test
+npm run cover
+npm run report
+```

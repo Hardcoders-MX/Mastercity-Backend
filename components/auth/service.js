@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt');
 const User = require('./model');
 const buildParams = require('../../utils/buildParams');
-const { FieldsRequiredError, NotFoundError } = require('../../utils/errors');
+const { FieldsRequiredError } = require('../../utils/errors');
 
 /**
  * receive parameters and filter with only valid params

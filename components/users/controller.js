@@ -31,6 +31,7 @@ const updateUser = async (req, res, next) => {
   try {
     let data = '';
     const user = await serviceUser.update(userId, userData);
+    // eslint-disable-next-line no-unused-expressions
     config.srv.mode === 'development' ? data = user : data = 'OK';
     success(res, 'User updated', data, 200);
   } catch (error) {
@@ -50,6 +51,7 @@ const deleteUser = async (req, res, next) => {
   try {
     let data = '';
     const user = await serviceUser.disable(userId);
+    // eslint-disable-next-line no-unused-expressions
     config.srv.mode === 'development' ? data = user : data = 'OK';
     success(res, 'User deleted', data, 200);
   } catch (error) {

@@ -41,7 +41,7 @@ const update = async (userId, user) => {
   const params = validateParams(user);
   const updatedUser = await User.updateOne(query, params);
 
-  if (updatedUser.nModified !== 1) throw new ServerError('Error to update user')
+  if (updatedUser.nModified !== 1) throw new ServerError('Error to update user');
 
   return updatedUser;
 };
