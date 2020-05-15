@@ -69,7 +69,7 @@ const addUser = async (user) => {
  * @param {*} userId
  */
 const getUser = async (email) => {
-  const user = await User.find({ email });
+  const user = await User.findOne({ email });
   if (!user) {
     throw new Error('not found');
   }
