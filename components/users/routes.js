@@ -2,6 +2,9 @@ const express = require('express');
 
 const router = express.Router();
 
+const passport = require('passport');
+
+require('../auth/strategies/jwt');
 const {
   getUser,
   updateUser,
@@ -9,8 +12,8 @@ const {
 
 } = require('./controller');
 
-router.get('/:id', getUser);
-router.put('/:id', updateUser);
-router.patch('/:id', deleteUser);
+router.get('/:id', passport.authenticate('jwt', { session: false }), getUser);
+router.put('/:id', passport.authenticate('jwt', { session: false }), updateUser);
+router.patch('/:id', passport.authenticate('jwt', { session: false }), deleteUser);
 
 module.exports = router;
