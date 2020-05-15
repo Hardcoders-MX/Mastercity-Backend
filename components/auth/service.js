@@ -63,6 +63,20 @@ const addUser = async (user) => {
   return createdUser;
 };
 
+
+/**
+ * Get a user by email
+ * @param {*} userId
+ */
+const getUser = async (email) => {
+  const user = await User.findOne({ email });
+  if (!user) {
+    throw new Error('not found');
+  }
+  return user;
+};
+
 module.exports = {
   add: addUser,
+  getUser,
 };
