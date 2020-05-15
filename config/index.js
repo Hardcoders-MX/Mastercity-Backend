@@ -12,7 +12,7 @@ const config = {
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
     name: process.env.DB_NAME,
-    mongoUri: process.env.MONGO_URI,
+    mongodbUri: process.env.MONGODB_URI,
   },
 };
 
