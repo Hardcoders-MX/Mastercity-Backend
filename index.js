@@ -6,11 +6,13 @@ const { info } = require('./utils/debug');
 const routes = require('./routes');
 const config = require('./config');
 
-const HOST = config.db.host;
+/* const HOST = config.db.host;
 const USER = encodeURIComponent(config.db.user);
 const PASSWORD = encodeURIComponent(config.db.password);
-const DB_NAME = config.db.name;
-const MONGO_URI = `mongodb+srv://${USER}:${PASSWORD}@${HOST}/${DB_NAME}?retryWrites=true&w=majority`;
+const DB_NAME = config.db.name; */
+// const MONGO_URI = `mongodb+srv://${USER}:${PASSWORD}@${HOST}/${DB_NAME}?retryWrites=true&w=majority`;
+// const MONGO_URI = `mongodb://${config.db.user}:${config.db.password}@${config.db.host}:${config.db.port}/${config.db.name}`;
+const MONGO_URI = db.mongo_uri;
 
 db.connect(MONGO_URI);
 
