@@ -8,6 +8,7 @@ const create = async (req, res, next) => {
   try {
     const createdUser = await serviceUser.add(user);
     let data = '';
+    // eslint-disable-next-line no-unused-expressions
     config.srv.mode === 'development' ? data = createdUser : data = '';
     success(res, 'User created', data, 201);
   } catch (error) {
