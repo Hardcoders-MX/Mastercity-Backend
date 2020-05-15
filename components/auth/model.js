@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+
 const { Schema } = mongoose;
 
 const userSchema = new Schema({
@@ -21,14 +22,14 @@ const userSchema = new Schema({
   profileType: {
     type: String,
     default: true,
-    enum: ['admin','offerer', 'applicant'],
+    enum: ['admin', 'offerer', 'applicant'],
   },
   isDisable: {
     type: Boolean,
     required: true,
   },
 }, {
-  versionKey: false
+  versionKey: false,
 }, {
   timestamps: true,
 });
