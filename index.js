@@ -12,7 +12,7 @@ const PASSWORD = encodeURIComponent(config.db.password);
 const DB_NAME = config.db.name; */
 // const MONGO_URI = `mongodb+srv://${USER}:${PASSWORD}@${HOST}/${DB_NAME}?retryWrites=true&w=majority`;
 // const MONGO_URI = `mongodb://${config.db.user}:${config.db.password}@${config.db.host}:${config.db.port}/${config.db.name}`;
-const MONGO_URI = db.mongo_uri;
+const MONGO_URI = config.db.mongoUri;
 
 db.connect(MONGO_URI);
 
