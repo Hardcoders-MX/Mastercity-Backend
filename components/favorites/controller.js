@@ -1,9 +1,11 @@
 const serviceFavorites = require('./service');
 const { success } = require('../../routes/response');
 
-const index = (req, res, next) => {
+const index = async (req, res, next) => {
+  const userId = req.params.user;
   try {
-    success(res, 'all rigth', false, 200);
+    const favorites = await serviceFavorites.findAll(userId);
+    success(res, 'favorites listed', favorites, 200);
   } catch (error) {
     next(error);
   }

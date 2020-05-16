@@ -5,10 +5,12 @@ const { Schema } = mongoose;
 const favoriteSchema = new Schema({
   user: {
     type: Schema.Types.ObjectId,
+    required: true,
     ref: 'user',
   },
   property: {
     type: Schema.Types.ObjectId,
+    required: true,
     ref: 'properties',
   },
 }, {
