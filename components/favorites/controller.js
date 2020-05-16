@@ -1,3 +1,4 @@
+const serviceFavorites = require('./service');
 const { success } = require('../../routes/response');
 
 const index = (req, res, next) => {
@@ -8,9 +9,12 @@ const index = (req, res, next) => {
   }
 };
 
-const create = (req, res, next) => {
+const create = async (req, res, next) => {
+  const { propertyId } = req.body;
+  const { userId } = req.body;
   try {
-    success(res, 'all rigth', false, 201);
+    const createdFavorite = await serviceFavorites.insert(userId, propertyId);
+    success(res, 'favorite created', createdFavorite, 201);
   } catch (error) {
     next(error);
   }
