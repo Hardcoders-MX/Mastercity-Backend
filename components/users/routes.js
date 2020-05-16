@@ -17,21 +17,21 @@ router.get(
   '/:id',
   passport.authenticate('jwt', { session: false }),
   scopesValidationHandler(['read:users']),
-  getUser
+  getUser,
 );
 
 router.put(
   '/:id',
   passport.authenticate('jwt', { session: false }),
   scopesValidationHandler(['update:users']),
-  updateUser
+  updateUser,
 );
 
 router.delete(
   '/:id',
   passport.authenticate('jwt', { session: false }),
   scopesValidationHandler(['delete:users']),
-  deleteUser
+  deleteUser,
 );
 
 module.exports = router;
