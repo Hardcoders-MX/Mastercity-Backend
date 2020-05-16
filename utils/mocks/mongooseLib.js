@@ -4,7 +4,7 @@ const { PropertiesMock } = require('./PropertiesMock');
 const { FavoritesMock } = require('./FavoritesMock');
 
 const populateStub = sinon.stub();
-populateStub.withArgs('property').resolves(FavoritesMock[0]);
+populateStub.withArgs('property').resolves(FavoritesMock);
 
 const skip = sinon.stub();
 skip.withArgs().resolves(PropertiesMock);
@@ -22,22 +22,39 @@ countDocumentsStub.withArgs().resolves(10);
 
 const findOneStub = sinon.stub();
 findOneStub.withArgs().resolves(PropertiesMock[0]);
+findOneStub.withArgs({
+  user: FavoritesMock[0].user,
+  property: FavoritesMock[0].property,
+}).resolves(null);
+findOneStub.withArgs({
+  user: FavoritesMock[0].property,
+  property: FavoritesMock[0].user,
+}).resolves(FavoritesMock[0]);
+
+const createStub = sinon.stub();
+createStub.withArgs({
+  user: FavoritesMock[0].user,
+  property: FavoritesMock[0].property,
+}).resolves(FavoritesMock[0]);
 
 const find = (query) => findStub(query);
 
-const findOne = () => findOneStub();
+const findOne = (query) => findOneStub(query);
 
 const countDocuments = () => countDocumentsStub();
 
+const create = (query) => createStub(query);
 
 module.exports = {
   findStub,
   findOneStub,
   countDocumentsStub,
   populateStub,
+  createStub,
   mongooseLib: {
     find,
     findOne,
     countDocuments,
+    create,
   },
 };
