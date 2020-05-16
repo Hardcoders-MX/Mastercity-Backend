@@ -1,9 +1,10 @@
+/* eslint-disable quote-props */
 /* eslint-disable no-undef */
 const assert = require('assert');
 const proxyquire = require('proxyquire');
 const testServer = require('../utils/testServer');
 const { FavoritesService, FavoritesMock } = require('../utils/mocks/FavoritesMock');
-const passport = require('../utils/mocks/PassportMock');
+const PassportMock = require('../utils/mocks/PassportMock');
 
 
 describe('routes - favorites', () => {
@@ -13,7 +14,7 @@ describe('routes - favorites', () => {
   });
   const router = proxyquire('../components/favorites/routes', {
     './controller': controller,
-    passport,
+    'passport': PassportMock,
   });
   const request = testServer(router);
 
@@ -37,6 +38,41 @@ describe('routes - favorites', () => {
 
     it('should response with a error', (done) => {
       request.get('/error')
+        .end((error, res) => {
+          assert.deepEqual(res.body, {});
+          done();
+        });
+    });
+  });
+
+  describe('POST /favorites', () => {
+    const data = {
+      propertyId: FavoritesMock[0].property,
+      userId: FavoritesMock[0].user,
+    };
+    it('should response with status code 201', (done) => {
+      request.post('/').send(data).expect(201, done);
+    });
+
+    it('should response with a favorite created', (done) => {
+      request
+        .post('/')
+        .send(data)
+        .end((error, res) => {
+          assert.deepEqual(res.body, {
+            error: false,
+            status: 201,
+            message: 'favorite created',
+            body: FavoritesMock[0],
+          });
+          done();
+        });
+    });
+
+    it('should response with a error', (done) => {
+      request
+        .post('/')
+        .send({})
         .end((error, res) => {
           assert.deepEqual(res.body, {});
           done();
