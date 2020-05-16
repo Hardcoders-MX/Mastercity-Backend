@@ -27,6 +27,14 @@ DB_NAME=db_name
 
 // Cloudinary
 CLOUDINARY_URL=
+
+//Auth
+AUTH_JWT_SECRET=
+
+// API Keys
+ADMIN_API_KEY_TOKEN=
+OFFERER_API_KEY_TOKEN=
+APPLICANT_API_KEY_TOKEN=
 ```
 
 ## Start
