@@ -131,8 +131,8 @@ const findById = async (propertyId) => {
 const update = async (propertyId, property) => {
   const query = { _id: propertyId, isDisable: false };
   let updatedProperty = null;
-  if (property.isAprove === true && Object.keys().length === 1) {
-    updatedProperty = await Property.updateOne(query, property);
+  if (property.isAprove === true && Object.keys(property).length === 1) {
+    updatedProperty = await Property.updateOne({ ...query, isAprove: false }, property);
   } else {
     const params = validateParams(property);
     updatedProperty = await Property.updateOne(query, params);
@@ -159,10 +159,21 @@ const destroy = async (propertyId) => {
   return deletedProperty;
 };
 
+/**
+ * Valid that profile type is admin and approved
+ * @param {*} propertyId
+ * @param {*} profileType
+ */
+const approve = async (propertyId, profileType) => {
+  if (profileType !== 'admin') throw new Error('you dont have permitions to approve this resource');
+  return update(propertyId, { isAprove: true });
+};
+
 module.exports = {
   findAll,
   findById,
   insert,
   update,
   destroy,
+  approve,
 };

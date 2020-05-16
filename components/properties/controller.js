@@ -83,16 +83,18 @@ const destroy = async (req, res, next) => {
 };
 
 /**
- * Response with a partially deleted property
+ * Response with a property approved
  * @param {import("express").Request} req
  * @param {import("express").Response} res
  * @param {import("express").NextFunction} next
  */
 const approve = async (req, res, next) => {
+  const propertyId = req.params.id;
   // eslint-disable-next-line no-underscore-dangle
-  const { profileType, _id } = req.user._doc;
+  const { profileType } = req.user._doc;
   try {
-    success(res, 'property approved', { profileType, _id }, 200);
+    const approvedProperty = await serviceProperty.approve(propertyId, profileType);
+    success(res, 'property approved', approvedProperty, 200);
   } catch (error) {
     next(error);
   }
