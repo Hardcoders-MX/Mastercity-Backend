@@ -24,6 +24,7 @@ DB_HOST=host.mongodb.net
 DB_USER=db_user
 DB_PASSWORD=12345
 DB_NAME=db_name
+DB_PORT=27017
 
 // Cloudinary
 CLOUDINARY_URL=
