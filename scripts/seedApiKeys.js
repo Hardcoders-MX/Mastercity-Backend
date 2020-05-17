@@ -44,6 +44,8 @@ const applicantScopes = [
   'read:properties',
   'create:favorites',
   'delete:favorites',
+  'create:favorites-applicant',
+  'read:favorites-applicant',
 ];
 
 const apiKeys = [
