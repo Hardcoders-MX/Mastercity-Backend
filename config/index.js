@@ -18,8 +18,9 @@ const config = {
     authJwtSecret: process.env.AUTH_JWT_SECRET,
     defaultAdminPassword: process.env.DEFAULT_ADMIN_PASSWORD,
     defaultUserPassword: process.env.DEFAULT_USER_PASSWORD,
-    publicApiKeyToken: process.env.PUBLIC_API_KEY_TOKEN,
     adminApiKeyToken: process.env.ADMIN_API_KEY_TOKEN,
+    offererApiKeyToken: process.env.OFFERER_API_KEY_TOKEN,
+    applicantApiKeyToken: process.env.APPLICANT_API_KEY_TOKEN,
   },
 };
 
