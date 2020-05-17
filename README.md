@@ -44,6 +44,11 @@ Install dependencies
 npm install
 ```
 
+Run script of scopes mode
+```bash
+npm run setup:api-keys
+```
+
 Run development mode
 ```bash
 npm run dev

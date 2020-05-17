@@ -5,6 +5,7 @@
   "scripts": {
     "start": "node index",
     "dev": "DEBUG=app:* nodemon index",
+    "setup:api-keys": "DEBUG=app:* node scripts/seedApiKeys.js",
     "lint": "eslint --ext .json --ext .js ./",
     "test": "mocha --exit",
     "cover": "nyc npm run test",
