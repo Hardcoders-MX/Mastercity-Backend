@@ -18,7 +18,7 @@ routes.post(
   '/',
   passport.authenticate('jwt', { session: false }),
   scopesValidationHandler(['create:properties']),
-  controller.create,
+  controller.create
 );
 
 routes.get(
@@ -41,5 +41,12 @@ routes.delete(
   scopesValidationHandler(['delete:properties']),
   controller.destroy
 );
+
+routes.patch(
+  '/:id/approve',
+  passport.authenticate('jwt', { session: false }),
+  scopesValidationHandler(['update:properties']),
+  controller.approve
+)
 
 module.exports = routes;

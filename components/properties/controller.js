@@ -82,10 +82,29 @@ const destroy = async (req, res, next) => {
   }
 };
 
+/**
+ * Response with a property approved
+ * @param {import("express").Request} req
+ * @param {import("express").Response} res
+ * @param {import("express").NextFunction} next
+ */
+const approve = async (req, res, next) => {
+  const propertyId = req.params.id;
+  // eslint-disable-next-line no-underscore-dangle
+  const { profileType } = req.user._doc;
+  try {
+    const approvedProperty = await serviceProperty.approve(propertyId, profileType);
+    success(res, 'property approved', approvedProperty, 200);
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   index,
   create,
   show,
   update,
   destroy,
+  approve,
 };
