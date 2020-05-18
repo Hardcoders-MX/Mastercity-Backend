@@ -1,4 +1,5 @@
 const express = require('express');
+const helmet = require('helmet');
 const cors = require('cors');
 const logger = require('morgan');
 const db = require('./databases/mongodb');
@@ -20,6 +21,7 @@ if (config.srv.mode === 'development') {
 db.connect(MONGODB_URI);
 
 const app = express();
+app.use(helmet());
 app.use(cors());
 
 app.use(logger('dev', { stream: { write: (msg) => info(msg) } }));
