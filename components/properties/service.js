@@ -1,6 +1,6 @@
 const Property = require('./model');
 const buildParams = require('../../utils/buildParams');
-const { FieldsRequiredError, NotFoundError } = require('../../utils/errors');
+const { FieldsRequiredError, NotFoundError, ServerError } = require('../../utils/errors');
 
 /**
  * receive parameters and filter with only valid params
@@ -118,7 +118,7 @@ const insert = async (property) => {
 const findById = async (propertyId) => {
   const property = await Property.findOne({ _id: propertyId, isDisable: false, isAprove: true });
   if (!property) {
-    throw new Error('not found');
+    throw new NotFoundError('not found property');
   }
   return property;
 };
@@ -129,19 +129,44 @@ const findById = async (propertyId) => {
  * @param {*} property
  */
 const update = async (propertyId, property) => {
+  const query = { _id: propertyId, isDisable: false };
   let updatedProperty = null;
-  if (property.isAprove === true && Object.keys().length === 1) {
-    updatedProperty = await Property.updateOne({ _id: propertyId }, property);
+  if (property.isAprove === true && Object.keys(property).length === 1) {
+    updatedProperty = await Property.updateOne({ ...query, isAprove: false }, property);
   } else {
     const params = validateParams(property);
-    updatedProperty = await Property.updateOne({ _id: propertyId }, params);
+    updatedProperty = await Property.updateOne(query, params);
   }
 
   if (updatedProperty.nModified !== 1) {
-    throw new Error('error to update');
+    throw new ServerError('error to update property');
   }
 
   return updatedProperty;
+};
+
+/**
+ * partial remove a property
+ * @param {any} propertyId
+ */
+const destroy = async (propertyId) => {
+  const params = { isDisable: true };
+  const deletedProperty = await Property.updateOne({ _id: propertyId, isDisable: false }, params);
+
+  if (deletedProperty.nModified !== 1) {
+    throw new ServerError('error to delete property');
+  }
+  return deletedProperty;
+};
+
+/**
+ * Valid that profile type is admin and approved
+ * @param {*} propertyId
+ * @param {*} profileType
+ */
+const approve = async (propertyId, profileType) => {
+  if (profileType !== 'admin') throw new Error('you dont have permitions to approve this resource');
+  return update(propertyId, { isAprove: true });
 };
 
 module.exports = {
@@ -149,4 +174,6 @@ module.exports = {
   findById,
   insert,
   update,
+  destroy,
+  approve,
 };

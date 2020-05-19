@@ -1,6 +1,7 @@
+const bcrypt = require('bcrypt');
 const User = require('./model');
 const buildParams = require('../../utils/buildParams');
-const { FieldsRequiredError, NotFoundError } = require('../../utils/errors');
+const { FieldsRequiredError } = require('../../utils/errors');
 
 /**
  * receive parameters and filter with only valid params
@@ -47,8 +48,12 @@ const validateRequiredParams = (params) => {
  * @param {User} user
  */
 const addUser = async (user) => {
+  const hashedPassword = await bcrypt.hash(user.password, 10);
+  // eslint-disable-next-line no-param-reassign
+  user.password = hashedPassword;
+
   const params = validateParams(user);
-  const isDisable = true;
+  const isDisable = false;
 
   const createdUser = await User.create({
     ...params,
@@ -58,6 +63,20 @@ const addUser = async (user) => {
   return createdUser;
 };
 
+
+/**
+ * Get a user by email
+ * @param {*} userId
+ */
+const getUser = async (email) => {
+  const user = await User.findOne({ email });
+  if (!user) {
+    throw new Error('not found');
+  }
+  return user;
+};
+
 module.exports = {
   add: addUser,
+  getUser,
 };
