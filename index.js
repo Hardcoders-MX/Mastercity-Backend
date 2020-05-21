@@ -9,7 +9,7 @@ const routes = require('./routes');
 const config = require('./config');
 
 const {
-  mongodbUri, user, password, host, port, name,
+  mongodbUri, user, password, host, name,
 } = config.db;
 
 let MONGODB_URI = mongodbUri;

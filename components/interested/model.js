@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const interestedSchema = Schema({
-  offeror: {
+  offerer: {
     type: Schema.Types.ObjectId,
     required: true,
     ref: 'user',
@@ -13,7 +13,7 @@ const interestedSchema = Schema({
     required: true,
     ref: 'properties',
   },
-  interested: {
+  applicant: {
     type: Schema.Types.ObjectId,
     required: true,
     ref: 'user',
