@@ -100,6 +100,14 @@ const approve = async (req, res, next) => {
   }
 };
 
+const unapproved = async (req, res, next) => {
+  try {
+    success(res, 'unapproved properties', [], 200);
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   index,
   create,
@@ -107,4 +115,5 @@ module.exports = {
   update,
   destroy,
   approve,
+  unapproved,
 };
