@@ -5,6 +5,7 @@ const proxyquire = require('proxyquire');
 const testServer = require('../utils/testServer');
 const { FavoritesService, FavoritesMock } = require('../utils/mocks/FavoritesMock');
 const PassportMock = require('../utils/mocks/PassportMock');
+const scopesValidationHandlerMock = require('../utils/mocks/scopesValidationHandlerMock');
 
 
 describe('routes - favorites', () => {
@@ -15,6 +16,7 @@ describe('routes - favorites', () => {
   const router = proxyquire('../components/favorites/routes', {
     './controller': controller,
     'passport': PassportMock,
+    '../../utils/middleware/scopesValidationHandler': scopesValidationHandlerMock,
   });
   const request = testServer(router);
 
