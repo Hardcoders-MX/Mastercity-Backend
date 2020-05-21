@@ -21,7 +21,7 @@
     "https"
   ],
   "paths": {
-    "/sign-in": {
+    "/sign-up": {
       "post": {
         "tags": [
           "auth"
@@ -29,9 +29,6 @@
         "summary": "Create user",
         "description": "This option has no route protection.",
         "operationId": "createUser",
-        "consumes": [
-          "application/json"
-        ],
         "produces": [
           "application/json"
         ],
@@ -76,7 +73,7 @@
         }
       }
     },
-    "/user/{id}": {
+    "/users/{id}": {
       "get": {
         "tags": [
           "user"
@@ -127,6 +124,67 @@
                   "_id": "string",
                   "isDisable": "boolean"
                 }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BasicAuth": []
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Update user by user id",
+        "description": "",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The id that needs to be fetched.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Created user object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "boolean"
+                },
+                "status": {
+                  "type": "integer"
+                },
+                "type": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                }
+              },
+              "example": {
+                "error": false,
+                "status": 200,
+                "message": "User updated",
+                "body": ""
               }
             }
           }
