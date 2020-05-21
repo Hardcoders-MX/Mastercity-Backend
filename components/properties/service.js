@@ -65,15 +65,20 @@ const validateRequiredParams = (params) => {
  * swimmingPool, heating, security, cellar, elevator
  * @param {Object} filters
  */
-const findAll = async (filters) => {
+const findAll = async (filters, profileType) => {
   const limit = Number(filters.limit) || 10;
   const sortName = filters.sort_name ? String(filters.sort_name) : '_id';
   const sort = Number(filters.sort) || -1;
   const skip = (Number(filters.page || 1) - 1) * limit;
 
   const query = validateParams(filters);
-  query.isDisable = false;
-  query.isAprove = true;
+  if (profileType === 'admin') {
+    query.isApprove = false;
+  } else {
+    query.isDisable = false;
+    query.isApprove = true;
+  }
+
   const properties = await Property.find(query).limit(limit).sort({
     [sortName]: sort,
   }).skip(skip);
@@ -97,14 +102,14 @@ const findAll = async (filters) => {
  */
 const insert = async (property) => {
   const params = validateParams(property);
-  const isAprove = false;
+  const isApprove = false;
   const isDisable = false;
 
   validateRequiredParams(params);
 
   const createdProperty = await Property.create({
     ...params,
-    isAprove,
+    isApprove,
     isDisable,
   });
 
