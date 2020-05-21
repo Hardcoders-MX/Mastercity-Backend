@@ -100,6 +100,18 @@ const approve = async (req, res, next) => {
   }
 };
 
+const unapproved = async (req, res, next) => {
+  const filters = req.query;
+  // eslint-disable-next-line no-underscore-dangle
+  const { profileType } = req.user._doc;
+  try {
+    const properties = await serviceProperty.findAll(filters, profileType);
+    success(res, 'unapproved properties', properties, 200);
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   index,
   create,
@@ -107,4 +119,5 @@ module.exports = {
   update,
   destroy,
   approve,
+  unapproved,
 };

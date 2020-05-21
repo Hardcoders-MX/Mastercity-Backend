@@ -23,7 +23,7 @@ const propertySchema = new Schema({
     type: Number,
     require: true,
   },
-  square: {
+  square_meters: {
     type: Number,
     require: true,
   },
@@ -59,7 +59,7 @@ const propertySchema = new Schema({
     type: Boolean,
     required: true,
   },
-  isAprove: {
+  isApprove: {
     type: Boolean,
     required: true,
   },
