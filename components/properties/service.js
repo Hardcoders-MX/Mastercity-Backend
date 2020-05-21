@@ -13,7 +13,7 @@ const validateParams = (params) => {
     'price',
     'rooms',
     'bathrooms',
-    'square',
+    'squareMeters',
     'priceMeters',
     'furnish',
     'parking',
@@ -37,7 +37,7 @@ const validateRequiredParams = (params) => {
     'price',
     'rooms',
     'bathrooms',
-    'square',
+    'squareMeters',
     'priceMeters',
     'furnish',
     'parking',
@@ -136,8 +136,8 @@ const findById = async (propertyId) => {
 const update = async (propertyId, property) => {
   const query = { _id: propertyId, isDisable: false };
   let updatedProperty = null;
-  if (property.isAprove === true && Object.keys(property).length === 1) {
-    updatedProperty = await Property.updateOne({ ...query, isAprove: false }, property);
+  if (property.isApprove === true && Object.keys(property).length === 1) {
+    updatedProperty = await Property.updateOne({ ...query, isApprove: false }, property);
   } else {
     const params = validateParams(property);
     updatedProperty = await Property.updateOne(query, params);
@@ -171,7 +171,7 @@ const destroy = async (propertyId) => {
  */
 const approve = async (propertyId, profileType) => {
   if (profileType !== 'admin') throw new Error('you dont have permitions to approve this resource');
-  return update(propertyId, { isAprove: true });
+  return update(propertyId, { isApprove: true });
 };
 
 module.exports = {
