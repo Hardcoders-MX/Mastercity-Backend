@@ -4,7 +4,7 @@ const propertyRoutes = require('../components/properties/routes');
 const userRoutes = require('../components/users/routes');
 const uploadRoutes = require('../components/upload/routes');
 const favoritesRoutes = require('../components/favorites/routes');
-const InteresteRouter = require('../components/interested/router');
+const { interestedRouter } = require('../components/interested/router');
 const swaggerDoc = require('../swagger.json');
 /**
  * Receives a instance of express and apply resource routes
@@ -17,7 +17,7 @@ const routes = (app) => {
   app.use('/api/uploads', uploadRoutes);
   app.use('/api/favorites', favoritesRoutes);
   app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerDoc));
-  new InteresteRouter(app);
+  app.use('/api/interested', interestedRouter);
 };
 
 module.exports = routes;
