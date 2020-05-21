@@ -3,6 +3,8 @@ const assert = require('assert');
 const proxyquire = require('proxyquire');
 const testServer = require('../utils/testServer');
 const { PropertiesService, PropertiesMock } = require('../utils/mocks/PropertiesMock');
+const PassportMock = require('../utils/mocks/PassportMock');
+const scopesValidationHandlerMock = require('../utils/mocks/scopesValidationHandlerMock');
 
 describe('routes - properties', () => {
   const controller = proxyquire('../components/properties/controller', {
@@ -10,6 +12,8 @@ describe('routes - properties', () => {
   });
   const router = proxyquire('../components/properties/routes', {
     './controller': controller,
+    passport: PassportMock,
+    '../../utils/middleware/scopesValidationHandler': scopesValidationHandlerMock,
   });
 
   const request = testServer(router);

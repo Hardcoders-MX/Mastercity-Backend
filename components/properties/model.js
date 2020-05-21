@@ -23,7 +23,7 @@ const propertySchema = new Schema({
     type: Number,
     require: true,
   },
-  square_meters: {
+  squareMeters: {
     type: Number,
     require: true,
   },
