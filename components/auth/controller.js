@@ -23,16 +23,31 @@ const create = async (req, res, next) => {
 };
 
 const signin = (req, res, next) => {
-  const { apiKeyToken } = req.body;
-
-  if (!apiKeyToken) next('apiKeyToken is required');
-
   passport.authenticate('basic', (error, user) => {
     try {
       if (error || !user) next('an error');
 
       req.login(user, { session: false }, async (err) => {
         if (err) next(err);
+
+        let apiKeyToken;
+        switch (user.profileType) {
+          case 'admin':
+            apiKeyToken = config.auth.adminApiKeyToken;
+            break;
+
+          case 'offerer':
+            apiKeyToken = config.auth.offererApiKeyToken;
+            break;
+
+          case 'applicant':
+            apiKeyToken = config.auth.applicantApiKeyToken;
+            break;
+
+          default:
+            next('Permissions don´t match');
+            break;
+        }
 
         const apiKey = await serviceApiKeys.getApiKey({ token: apiKeyToken });
 
