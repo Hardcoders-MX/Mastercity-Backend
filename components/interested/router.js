@@ -28,6 +28,13 @@ class InterestedRouter extends Router {
       isOfThisType(['applicant']),
       this.controller.create,
     );
+
+    this.delete(
+      '/:id',
+      passport.authenticate('jwt', { session: false }),
+      isOfThisType(['applicant']),
+      this.controller.destroy,
+    );
   }
 }
 

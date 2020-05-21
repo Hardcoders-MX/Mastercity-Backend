@@ -18,6 +18,10 @@ const interestedSchema = Schema({
     required: true,
     ref: 'user',
   },
+  isDisable: {
+    type: Boolean,
+    default: false,
+  },
 }, {
   timestamps: true,
 });

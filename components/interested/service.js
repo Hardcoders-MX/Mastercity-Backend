@@ -1,5 +1,5 @@
 const Interested = require('./model');
-const { FieldsRequiredError } = require('../../utils/errors');
+const { FieldsRequiredError, ServerError } = require('../../utils/errors');
 
 
 class InterestedService {
@@ -8,7 +8,7 @@ class InterestedService {
   }
 
   async findAll(userId) {
-    const interested = await this.model.find({ offerer: userId }).populate('applicant property');
+    const interested = await this.model.find({ offerer: userId, isDisable: false }).populate('applicant property');
     return interested;
   }
 
@@ -20,13 +20,26 @@ class InterestedService {
       throw new FieldsRequiredError('all fileds are requires', 400);
     }
 
-    const query = { offerer, property, applicant };
+    const query = {
+      offerer, property, applicant, isDisable: false,
+    };
 
     const existedInterested = await this.model.findOne(query);
     if (existedInterested !== null) throw new Error('this property added to interested');
 
     const createdInterested = await this.model.create(query);
     return createdInterested;
+  }
+
+  async destroy(id) {
+    const params = { isDisable: true };
+
+    const deletedInterested = await this.model.updateOne({ _id: id, isDisable: false }, params);
+
+    if (deletedInterested.nModified !== 1) {
+      throw new ServerError('error to delete interested');
+    }
+    return deletedInterested;
   }
 }
 
