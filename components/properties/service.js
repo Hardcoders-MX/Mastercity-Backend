@@ -81,7 +81,8 @@ const findAll = async (filters, profileType) => {
 
   const properties = await Property.find(query).limit(limit).sort({
     [sortName]: sort,
-  }).skip(skip);
+  }).skip(skip)
+    .populate('offerer');
 
   if (properties.length === 0) {
     throw new NotFoundError('Not found properties', 404);
@@ -100,14 +101,16 @@ const findAll = async (filters, profileType) => {
  * Inert one property in the database
  * @param {Property} property
  */
-const insert = async (property) => {
+const insert = async (offererId, property) => {
   const params = validateParams(property);
   const isApprove = false;
   const isDisable = false;
+  const offerer = offererId;
 
   validateRequiredParams(params);
 
   const createdProperty = await Property.create({
+    offerer,
     ...params,
     isApprove,
     isDisable,

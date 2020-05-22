@@ -24,9 +24,11 @@ const index = async (req, res, next) => {
  * @param {import("express").NextFunction} next
  */
 const create = async (req, res, next) => {
+  // eslint-disable-next-line no-underscore-dangle
+  const userId = req.user._doc._id;
   const property = req.body;
   try {
-    const createdProperty = await serviceProperty.insert(property);
+    const createdProperty = await serviceProperty.insert(userId, property);
     success(res, 'property created', createdProperty, 201);
   } catch (error) {
     next(error);
