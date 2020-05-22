@@ -7,9 +7,30 @@ class InterestedService {
     this.model = model;
   }
 
-  async findAll(userId) {
-    const interested = await this.model.find({ offerer: userId, isDisable: false }).populate('applicant property');
-    return interested;
+  async findAll(userId, filters) {
+    const limit = Number(filters.limit) || 10;
+    const sortName = filters.sort_name ? String(filters.sort_name) : '_id';
+    const sort = Number(filters.sort) || -1;
+    const skip = (Number(filters.page || 1) - 1) * limit;
+
+    const query = { offerer: userId, isDisable: false };
+
+    const interested = await this.model
+      .find(query)
+      .limit(limit)
+      .sort({
+        [sortName]: sort,
+      }).skip(skip)
+      .populate('applicant property');
+
+    const totalInterested = await this.model.countDocuments(query);
+    const pagination = {
+      totalInterested,
+      totalPages: Math.ceil(totalInterested / limit),
+      page: filters.page || 1,
+    };
+
+    return { interested, pagination };
   }
 
   async insert(applicantId, interested) {
@@ -21,7 +42,10 @@ class InterestedService {
     }
 
     const query = {
-      offerer, property, applicant, isDisable: false,
+      offerer,
+      property,
+      applicant,
+      isDisable: false,
     };
 
     const existedInterested = await this.model.findOne(query);

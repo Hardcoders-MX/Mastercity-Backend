@@ -12,8 +12,9 @@ class InterestedController {
   async index(req, res, next) {
     // eslint-disable-next-line no-underscore-dangle
     const offererId = req.user._doc._id;
+    const { query } = req;
     try {
-      const interested = await this.service.findAll(offererId);
+      const interested = await this.service.findAll(offererId, query);
       success(res, 'interested listed', interested, 200);
     } catch (error) {
       next(error);
