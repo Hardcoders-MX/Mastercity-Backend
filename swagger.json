@@ -194,6 +194,58 @@
             "BasicAuth": []
           }
         ]
+      },
+      "delete": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Delete user by user Id",
+        "description": "This action will disable the user, instead of eliminating them completely",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The id that needs to be fetched.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "boolean"
+                },
+                "status": {
+                  "type": "integer"
+                },
+                "type": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                }
+              },
+              "example": {
+                "error": false,
+                "status": 200,
+                "message": "User deleted",
+                "body": ""
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BasicAuth": []
+          }
+        ]
       }
     }
   },
