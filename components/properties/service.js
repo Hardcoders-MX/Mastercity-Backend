@@ -1,6 +1,8 @@
 const Property = require('./model');
 const buildParams = require('../../utils/buildParams');
 const { FieldsRequiredError, NotFoundError, ServerError } = require('../../utils/errors');
+const setupPagination = require('../../utils/paginate/setupPagination');
+const toDoPagination = require('../../utils/paginate/toDoPagination');
 
 /**
  * receive parameters and filter with only valid params
@@ -66,10 +68,9 @@ const validateRequiredParams = (params) => {
  * @param {Object} filters
  */
 const findAll = async (filters, profileType) => {
-  const limit = Number(filters.limit) || 10;
-  const sortName = filters.sort_name ? String(filters.sort_name) : '_id';
-  const sort = Number(filters.sort) || -1;
-  const skip = (Number(filters.page || 1) - 1) * limit;
+  const {
+    limit, skip, sort, page,
+  } = setupPagination(filters);
 
   const query = validateParams(filters);
   if (profileType === 'admin') {
@@ -79,21 +80,18 @@ const findAll = async (filters, profileType) => {
     query.isApprove = true;
   }
 
-  const properties = await Property.find(query).limit(limit).sort({
-    [sortName]: sort,
-  }).skip(skip)
+  const properties = await Property.find(query)
+    .limit(limit)
+    .sort(sort)
+    .skip(skip)
     .populate('offerer');
 
   if (properties.length === 0) {
     throw new NotFoundError('Not found properties', 404);
   }
 
-  const totalProperties = await Property.countDocuments(query);
-  const pagination = {
-    totalProperties,
-    totalPages: Math.ceil(totalProperties / limit),
-    page: filters.page || 1,
-  };
+  const pagination = await toDoPagination(Property, { limit, page }, query);
+
   return { properties, pagination };
 };
 
@@ -177,6 +175,24 @@ const approve = async (propertyId, profileType) => {
   return update(propertyId, { isApprove: true });
 };
 
+const findMyProperties = async (offererId, queries) => {
+  if (!offererId) throw new FieldsRequiredError();
+
+  const {
+    limit, skip, sort, page,
+  } = setupPagination(queries);
+
+  const query = { offerer: offererId, isDisable: false };
+  const properties = await Property.find(query)
+    .limit(limit)
+    .sort(sort)
+    .skip(skip);
+
+  const pagination = await toDoPagination(Property, { limit, page }, query);
+
+  return { properties, pagination };
+};
+
 module.exports = {
   findAll,
   findById,
@@ -184,4 +200,5 @@ module.exports = {
   update,
   destroy,
   approve,
+  findMyProperties,
 };

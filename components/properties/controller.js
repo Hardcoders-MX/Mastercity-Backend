@@ -114,6 +114,18 @@ const unapproved = async (req, res, next) => {
   }
 };
 
+const myProperties = async (req, res, next) => {
+  // eslint-disable-next-line no-underscore-dangle
+  const { _id: offererId } = req.user._doc;
+  const { query } = req;
+  try {
+    const properties = await serviceProperty.findMyProperties(offererId, query);
+    success(res, 'properties listed', properties, 200);
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   index,
   create,
@@ -122,4 +134,5 @@ module.exports = {
   destroy,
   approve,
   unapproved,
+  myProperties,
 };

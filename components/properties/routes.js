@@ -25,7 +25,14 @@ routes.post(
 routes.get(
   '/unapproved',
   scopesValidationHandler(['read:properties']),
+  isOfThisType(['admin']),
   controller.unapproved,
+);
+
+routes.get(
+  '/my',
+  scopesValidationHandler(['read:properties']),
+  controller.myProperties,
 );
 
 routes.get(
