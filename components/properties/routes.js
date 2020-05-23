@@ -12,6 +12,7 @@ routes.use(passport.authenticate('jwt', { session: false }));
 routes.get(
   '/',
   scopesValidationHandler(['read:properties']),
+  isOfThisType(['applicant', 'offerer', 'admin']),
   controller.index,
 );
 
@@ -32,24 +33,28 @@ routes.get(
 routes.get(
   '/my',
   scopesValidationHandler(['read:properties']),
+  isOfThisType(['offerer']),
   controller.myProperties,
 );
 
 routes.get(
   '/:id',
   scopesValidationHandler(['read:properties']),
+  isOfThisType(['applicant', 'offerer', 'admin']),
   controller.show,
 );
 
 routes.patch(
   '/:id',
   scopesValidationHandler(['update:properties']),
+  isOfThisType(['offerer']),
   controller.update,
 );
 
 routes.delete(
   '/:id',
   scopesValidationHandler(['delete:properties']),
+  isOfThisType(['offerer']),
   controller.destroy,
 );
 

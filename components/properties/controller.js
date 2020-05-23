@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 const serviceProperty = require('./service');
 const { success } = require('../../routes/response');
 
@@ -24,7 +25,6 @@ const index = async (req, res, next) => {
  * @param {import("express").NextFunction} next
  */
 const create = async (req, res, next) => {
-  // eslint-disable-next-line no-underscore-dangle
   const userId = req.user._doc._id;
   const property = req.body;
   try {
@@ -58,10 +58,11 @@ const show = async (req, res, next) => {
  * @param {import("express").NextFunction} next
  */
 const update = async (req, res, next) => {
+  const { _id: offererId } = req.user._doc._id;
   const property = req.body;
   const propertyId = req.params.id;
   try {
-    const updatedProperty = await serviceProperty.update(propertyId, property);
+    const updatedProperty = await serviceProperty.update(propertyId, property, offererId);
     success(res, 'property updated', updatedProperty, 200);
   } catch (error) {
     next(error);
@@ -75,9 +76,10 @@ const update = async (req, res, next) => {
  * @param {import("express").NextFunction} next
  */
 const destroy = async (req, res, next) => {
+  const { _id: offererId } = req.user._doc;
   const propertyId = req.params.id;
   try {
-    const deletedProperty = await serviceProperty.destroy(propertyId);
+    const deletedProperty = await serviceProperty.destroy(propertyId, offererId);
     success(res, 'property deleted', deletedProperty, 200);
   } catch (error) {
     next(error);
@@ -92,7 +94,6 @@ const destroy = async (req, res, next) => {
  */
 const approve = async (req, res, next) => {
   const propertyId = req.params.id;
-  // eslint-disable-next-line no-underscore-dangle
   const { profileType } = req.user._doc;
   try {
     const approvedProperty = await serviceProperty.approve(propertyId, profileType);
@@ -104,10 +105,9 @@ const approve = async (req, res, next) => {
 
 const unapproved = async (req, res, next) => {
   const filters = req.query;
-  // eslint-disable-next-line no-underscore-dangle
   const { profileType } = req.user._doc;
   try {
-    const properties = await serviceProperty.findAll(filters, profileType);
+    const properties = await serviceProperty.findUnapproveProperties(filters, profileType);
     success(res, 'unapproved properties', properties, 200);
   } catch (error) {
     next(error);
@@ -115,7 +115,6 @@ const unapproved = async (req, res, next) => {
 };
 
 const myProperties = async (req, res, next) => {
-  // eslint-disable-next-line no-underscore-dangle
   const { _id: offererId } = req.user._doc;
   const { query } = req;
   try {
