@@ -8,6 +8,7 @@ const { info } = require('./utils/debug');
 const routes = require('./routes');
 const config = require('./config');
 
+const { logErrors } = require('./utils/errorsHandlers');
 const {
   mongodbUri, user, password, host, name,
 } = config.db;
@@ -33,6 +34,8 @@ app.get('/', (req, res) => {
 });
 
 routes(app);
+
+app.use(logErrors);
 
 app.listen(config.srv.port, () => {
   info(`server runing in http://localhost:${config.srv.port}`);

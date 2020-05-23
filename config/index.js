@@ -14,6 +14,10 @@ const config = {
     name: process.env.DB_NAME,
     mongodbUri: process.env.MONGODB_URI,
   },
+  sentry: {
+    sentryDns: process.env.SENTRY_DNS,
+    sentryId: process.env.SENTRY_ID,
+  },
   auth: {
     authJwtSecret: process.env.AUTH_JWT_SECRET,
     defaultAdminPassword: process.env.DEFAULT_ADMIN_PASSWORD,
