@@ -29,6 +29,10 @@ DB_PORT=27017
 // Cloudinary
 CLOUDINARY_URL=
 
+// Sentry
+SENTRY_DNS=
+SENTRY_ID=
+
 //Auth
 AUTH_JWT_SECRET=
 

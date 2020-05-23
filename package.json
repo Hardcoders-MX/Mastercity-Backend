@@ -12,6 +12,7 @@
     "report": "nyc report --reporter=html"
   },
   "dependencies": {
+    "@sentry/node": "^5.15.5",
     "bcrypt": "^4.0.1",
     "cloudinary": "^1.21.0",
     "cors": "^2.8.5",
