@@ -1,6 +1,8 @@
 const Property = require('./model');
 const buildParams = require('../../utils/buildParams');
 const { FieldsRequiredError, NotFoundError, ServerError } = require('../../utils/errors');
+const setupPagination = require('../../utils/paginate/setupPagination');
+const toDoPagination = require('../../utils/paginate/toDoPagination');
 
 /**
  * receive parameters and filter with only valid params
@@ -65,34 +67,27 @@ const validateRequiredParams = (params) => {
  * swimmingPool, heating, security, cellar, elevator
  * @param {Object} filters
  */
-const findAll = async (filters, profileType) => {
-  const limit = Number(filters.limit) || 10;
-  const sortName = filters.sort_name ? String(filters.sort_name) : '_id';
-  const sort = Number(filters.sort) || -1;
-  const skip = (Number(filters.page || 1) - 1) * limit;
+const findAll = async (filters) => {
+  const {
+    limit, skip, sort, page,
+  } = setupPagination(filters);
 
   const query = validateParams(filters);
-  if (profileType === 'admin') {
-    query.isApprove = false;
-  } else {
-    query.isDisable = false;
-    query.isApprove = true;
-  }
+  query.isDisable = false;
+  query.isApprove = true;
 
-  const properties = await Property.find(query).limit(limit).sort({
-    [sortName]: sort,
-  }).skip(skip);
+  const properties = await Property.find(query)
+    .limit(limit)
+    .sort(sort)
+    .skip(skip)
+    .populate('offerer');
 
   if (properties.length === 0) {
     throw new NotFoundError('Not found properties', 404);
   }
 
-  const totalProperties = await Property.countDocuments(query);
-  const pagination = {
-    totalProperties,
-    totalPages: Math.ceil(totalProperties / limit),
-    page: filters.page || 1,
-  };
+  const pagination = await toDoPagination(Property, { limit, page }, query);
+
   return { properties, pagination };
 };
 
@@ -100,14 +95,16 @@ const findAll = async (filters, profileType) => {
  * Inert one property in the database
  * @param {Property} property
  */
-const insert = async (property) => {
+const insert = async (offererId, property) => {
   const params = validateParams(property);
   const isApprove = false;
   const isDisable = false;
+  const offerer = offererId;
 
   validateRequiredParams(params);
 
   const createdProperty = await Property.create({
+    offerer,
     ...params,
     isApprove,
     isDisable,
@@ -121,7 +118,7 @@ const insert = async (property) => {
  * @param {*} propertyId
  */
 const findById = async (propertyId) => {
-  const property = await Property.findOne({ _id: propertyId, isDisable: false, isAprove: true });
+  const property = await Property.findOne({ _id: propertyId, isDisable: false, isApprove: true });
   if (!property) {
     throw new NotFoundError('not found property');
   }
@@ -133,15 +130,11 @@ const findById = async (propertyId) => {
  * @param {*} propertyId
  * @param {*} property
  */
-const update = async (propertyId, property) => {
-  const query = { _id: propertyId, isDisable: false };
-  let updatedProperty = null;
-  if (property.isApprove === true && Object.keys(property).length === 1) {
-    updatedProperty = await Property.updateOne({ ...query, isApprove: false }, property);
-  } else {
-    const params = validateParams(property);
-    updatedProperty = await Property.updateOne(query, params);
-  }
+const update = async (propertyId, property, offererId) => {
+  const query = { _id: propertyId, isDisable: false, offerer: offererId };
+
+  const params = validateParams(property);
+  const updatedProperty = await Property.updateOne(query, params);
 
   if (updatedProperty.nModified !== 1) {
     throw new ServerError('error to update property');
@@ -154,9 +147,10 @@ const update = async (propertyId, property) => {
  * partial remove a property
  * @param {any} propertyId
  */
-const destroy = async (propertyId) => {
+const destroy = async (propertyId, offererId) => {
   const params = { isDisable: true };
-  const deletedProperty = await Property.updateOne({ _id: propertyId, isDisable: false }, params);
+  const query = { _id: propertyId, isDisable: false, offerer: offererId };
+  const deletedProperty = await Property.updateOne(query, params);
 
   if (deletedProperty.nModified !== 1) {
     throw new ServerError('error to delete property');
@@ -169,9 +163,50 @@ const destroy = async (propertyId) => {
  * @param {*} propertyId
  * @param {*} profileType
  */
-const approve = async (propertyId, profileType) => {
-  if (profileType !== 'admin') throw new Error('you dont have permitions to approve this resource');
-  return update(propertyId, { isApprove: true });
+const approve = async (propertyId) => {
+  const query = { _id: propertyId, isDisable: false };
+  const approvedProperty = await Property.updateOne(query, { isApprove: true });
+
+  if (approvedProperty.nModified !== 1) {
+    throw new ServerError('error to approve property');
+  }
+
+  return approvedProperty;
+};
+
+const findMyProperties = async (offererId, queries) => {
+  if (!offererId) throw new FieldsRequiredError();
+
+  const {
+    limit, skip, sort, page,
+  } = setupPagination(queries);
+
+  const query = { offerer: offererId, isDisable: false };
+  const properties = await Property.find(query)
+    .limit(limit)
+    .sort(sort)
+    .skip(skip);
+
+  const pagination = await toDoPagination(Property, { limit, page }, query);
+
+  return { properties, pagination };
+};
+
+const findUnapproveProperties = async (queries) => {
+  const {
+    limit, skip, sort, page,
+  } = setupPagination(queries);
+
+  const query = { isApprove: false };
+  const properties = await Property.find(query)
+    .limit(limit)
+    .sort(sort)
+    .skip(skip)
+    .populate('offerer');
+
+  const pagination = await toDoPagination(Property, { limit, page }, query);
+
+  return { properties, pagination };
 };
 
 module.exports = {
@@ -181,4 +216,6 @@ module.exports = {
   update,
   destroy,
   approve,
+  findMyProperties,
+  findUnapproveProperties,
 };

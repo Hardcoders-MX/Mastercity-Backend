@@ -3,6 +3,11 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const propertySchema = new Schema({
+  offerer: {
+    type: Schema.Types.ObjectId,
+    required: true,
+    ref: 'user',
+  },
   propertyType: {
     type: String,
     enum: ['house', 'department', 'office', 'studio'],
