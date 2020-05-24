@@ -1,6 +1,33 @@
 const mongoose = require('mongoose');
+const addressSchema = require('../addresses/model');
 
 const { Schema } = mongoose;
+
+const locationSchema = new Schema({
+  lat: {
+    type: Number,
+    required: true,
+  },
+  len: {
+    type: Number,
+    required: true,
+  },
+});
+
+const mediaFileSchema = new Schema({
+  secure_url: {
+    type: String,
+    default: '',
+  },
+  resource_type: {
+    type: String,
+    default: '',
+  },
+  format: {
+    type: String,
+    default: '',
+  },
+});
 
 const propertySchema = new Schema({
   offerer: {
@@ -8,13 +35,21 @@ const propertySchema = new Schema({
     required: true,
     ref: 'user',
   },
+  address: {
+    type: addressSchema,
+    required: true,
+  },
+  location: {
+    type: locationSchema,
+    required: true,
+  },
+  mediaFiles: {
+    type: [mediaFileSchema],
+    required: true,
+  },
   propertyType: {
     type: String,
     enum: ['house', 'department', 'office', 'studio'],
-  },
-  location: {
-    lat: Number,
-    len: Number,
   },
   price: {
     type: Number,
@@ -68,7 +103,7 @@ const propertySchema = new Schema({
     type: Boolean,
     required: true,
   },
-  isDisable: {
+  isDisabled: {
     type: Boolean,
     required: true,
   },

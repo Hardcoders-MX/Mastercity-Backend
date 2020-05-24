@@ -4,51 +4,44 @@ const { FieldsRequiredError, NotFoundError, ServerError } = require('../../utils
 const setupPagination = require('../../utils/paginate/setupPagination');
 const toDoPagination = require('../../utils/paginate/toDoPagination');
 
+const fields = [
+  'address.postalCode',
+  'address.country',
+  'address.state',
+  'address.townHall',
+  'address.colony',
+  'address.street',
+  'address.outdoorNumber',
+  'address.interiorNumber',
+  'location.lat',
+  'location.len',
+  'mediaFiles',
+  'propertyType',
+  'price',
+  'rooms',
+  'bathrooms',
+  'squareMeters',
+  'priceMeters',
+  'furnish',
+  'parking',
+  'swimmingPool',
+  'heating',
+  'security',
+  'cellar',
+  'elevator',
+];
+
 /**
  * receive parameters and filter with only valid params
  * @param {Object} params
  */
-const validateParams = (params) => {
-  const validParams = [
-    'propertyType',
-    'location',
-    'price',
-    'rooms',
-    'bathrooms',
-    'squareMeters',
-    'priceMeters',
-    'furnish',
-    'parking',
-    'swimmingPool',
-    'heating',
-    'security',
-    'cellar',
-    'elevator',
-  ];
-  return buildParams(validParams, params);
-};
+const validateParams = (validParams, params) => buildParams(validParams, params);
 
 /**
  * Validate that required params it existed
  * @param {Object} params
  */
-const validateRequiredParams = (params) => {
-  const requiredParams = [
-    'propertyType',
-    'location',
-    'price',
-    'rooms',
-    'bathrooms',
-    'squareMeters',
-    'priceMeters',
-    'furnish',
-    'parking',
-    'swimmingPool',
-    'heating',
-    'security',
-    'cellar',
-    'elevator',
-  ];
+const validateRequiredParams = (requiredParams, params) => {
   requiredParams.forEach((field) => {
     if (!params[field]) {
       throw new FieldsRequiredError(`Field ${field} is required`, 400);
@@ -72,8 +65,8 @@ const findAll = async (filters) => {
     limit, skip, sort, page,
   } = setupPagination(filters);
 
-  const query = validateParams(filters);
-  query.isDisable = false;
+  const query = validateParams(fields, filters);
+  query.isDisabled = false;
   query.isApprove = true;
 
   const properties = await Property.find(query)
@@ -96,18 +89,18 @@ const findAll = async (filters) => {
  * @param {Property} property
  */
 const insert = async (offererId, property) => {
-  const params = validateParams(property);
+  const params = validateParams(fields, property);
   const isApprove = false;
-  const isDisable = false;
+  const isDisabled = false;
   const offerer = offererId;
 
-  validateRequiredParams(params);
+  validateRequiredParams(fields, params);
 
   const createdProperty = await Property.create({
     offerer,
     ...params,
     isApprove,
-    isDisable,
+    isDisabled,
   });
 
   return createdProperty;
@@ -118,7 +111,7 @@ const insert = async (offererId, property) => {
  * @param {*} propertyId
  */
 const findById = async (propertyId) => {
-  const property = await Property.findOne({ _id: propertyId, isDisable: false, isApprove: true });
+  const property = await Property.findOne({ _id: propertyId, isDisabled: false, isApprove: true });
   if (!property) {
     throw new NotFoundError('not found property');
   }
@@ -131,10 +124,10 @@ const findById = async (propertyId) => {
  * @param {*} property
  */
 const update = async (propertyId, property, offererId) => {
-  const query = { _id: propertyId, isDisable: false, offerer: offererId };
+  const query = { _id: propertyId, isDisabled: false, offerer: offererId };
 
-  const params = validateParams(property);
-  const updatedProperty = await Property.updateOne(query, params);
+  const params = validateParams(fields, property);
+  const updatedProperty = await Property.updateOne(query, { $set: { ...params } });
 
   if (updatedProperty.nModified !== 1) {
     throw new ServerError('error to update property');
@@ -148,8 +141,8 @@ const update = async (propertyId, property, offererId) => {
  * @param {any} propertyId
  */
 const destroy = async (propertyId, offererId) => {
-  const params = { isDisable: true };
-  const query = { _id: propertyId, isDisable: false, offerer: offererId };
+  const params = { isDisabled: true };
+  const query = { _id: propertyId, isDisabled: false, offerer: offererId };
   const deletedProperty = await Property.updateOne(query, params);
 
   if (deletedProperty.nModified !== 1) {
@@ -164,7 +157,7 @@ const destroy = async (propertyId, offererId) => {
  * @param {*} profileType
  */
 const approve = async (propertyId) => {
-  const query = { _id: propertyId, isDisable: false };
+  const query = { _id: propertyId, isDisabled: false };
   const approvedProperty = await Property.updateOne(query, { isApprove: true });
 
   if (approvedProperty.nModified !== 1) {
@@ -181,7 +174,7 @@ const findMyProperties = async (offererId, queries) => {
     limit, skip, sort, page,
   } = setupPagination(queries);
 
-  const query = { offerer: offererId, isDisable: false };
+  const query = { offerer: offererId, isDisabled: false };
   const properties = await Property.find(query)
     .limit(limit)
     .sort(sort)
