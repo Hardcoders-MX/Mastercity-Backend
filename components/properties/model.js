@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const addressSchema = require('../addresses/model');
 
 const { Schema } = mongoose;
 
@@ -7,6 +8,10 @@ const propertySchema = new Schema({
     type: Schema.Types.ObjectId,
     required: true,
     ref: 'user',
+  },
+  address: {
+    type: addressSchema,
+    required: true,
   },
   propertyType: {
     type: String,
@@ -68,7 +73,7 @@ const propertySchema = new Schema({
     type: Boolean,
     required: true,
   },
-  isDisable: {
+  isDisabled: {
     type: Boolean,
     required: true,
   },

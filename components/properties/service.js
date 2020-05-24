@@ -10,6 +10,7 @@ const toDoPagination = require('../../utils/paginate/toDoPagination');
  */
 const validateParams = (params) => {
   const validParams = [
+    'address',
     'propertyType',
     'location',
     'price',
@@ -73,7 +74,7 @@ const findAll = async (filters) => {
   } = setupPagination(filters);
 
   const query = validateParams(filters);
-  query.isDisable = false;
+  query.isDisabled = false;
   query.isApprove = true;
 
   const properties = await Property.find(query)
@@ -98,7 +99,7 @@ const findAll = async (filters) => {
 const insert = async (offererId, property) => {
   const params = validateParams(property);
   const isApprove = false;
-  const isDisable = false;
+  const isDisabled = false;
   const offerer = offererId;
 
   validateRequiredParams(params);
@@ -107,7 +108,7 @@ const insert = async (offererId, property) => {
     offerer,
     ...params,
     isApprove,
-    isDisable,
+    isDisabled,
   });
 
   return createdProperty;
@@ -118,7 +119,7 @@ const insert = async (offererId, property) => {
  * @param {*} propertyId
  */
 const findById = async (propertyId) => {
-  const property = await Property.findOne({ _id: propertyId, isDisable: false, isApprove: true });
+  const property = await Property.findOne({ _id: propertyId, isDisabled: false, isApprove: true });
   if (!property) {
     throw new NotFoundError('not found property');
   }
@@ -131,10 +132,10 @@ const findById = async (propertyId) => {
  * @param {*} property
  */
 const update = async (propertyId, property, offererId) => {
-  const query = { _id: propertyId, isDisable: false, offerer: offererId };
+  const query = { _id: propertyId, isDisabled: false, offerer: offererId };
 
-  const params = validateParams(property);
-  const updatedProperty = await Property.updateOne(query, params);
+  const params = property; // validateParams(property);
+  const updatedProperty = await Property.updateOne(query, { $set: { ...params } });
 
   if (updatedProperty.nModified !== 1) {
     throw new ServerError('error to update property');
@@ -148,8 +149,8 @@ const update = async (propertyId, property, offererId) => {
  * @param {any} propertyId
  */
 const destroy = async (propertyId, offererId) => {
-  const params = { isDisable: true };
-  const query = { _id: propertyId, isDisable: false, offerer: offererId };
+  const params = { isDisabled: true };
+  const query = { _id: propertyId, isDisabled: false, offerer: offererId };
   const deletedProperty = await Property.updateOne(query, params);
 
   if (deletedProperty.nModified !== 1) {
@@ -164,7 +165,7 @@ const destroy = async (propertyId, offererId) => {
  * @param {*} profileType
  */
 const approve = async (propertyId) => {
-  const query = { _id: propertyId, isDisable: false };
+  const query = { _id: propertyId, isDisabled: false };
   const approvedProperty = await Property.updateOne(query, { isApprove: true });
 
   if (approvedProperty.nModified !== 1) {
@@ -181,7 +182,7 @@ const findMyProperties = async (offererId, queries) => {
     limit, skip, sort, page,
   } = setupPagination(queries);
 
-  const query = { offerer: offererId, isDisable: false };
+  const query = { offerer: offererId, isDisabled: false };
   const properties = await Property.find(query)
     .limit(limit)
     .sort(sort)

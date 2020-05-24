@@ -1,5 +1,5 @@
 const Sentry = require('@sentry/node');
-const debug = require("debug")("app:error");
+const debug = require('debug')('app:error');
 const config = require('../config');
 
 const {
