@@ -4,52 +4,44 @@ const { FieldsRequiredError, NotFoundError, ServerError } = require('../../utils
 const setupPagination = require('../../utils/paginate/setupPagination');
 const toDoPagination = require('../../utils/paginate/toDoPagination');
 
+const fields = [
+  'address.postalCode',
+  'address.country',
+  'address.state',
+  'address.townHall',
+  'address.colony',
+  'address.street',
+  'address.outdoorNumber',
+  'address.interiorNumber',
+  'location.lat',
+  'location.len',
+  'mediaFiles',
+  'propertyType',
+  'price',
+  'rooms',
+  'bathrooms',
+  'squareMeters',
+  'priceMeters',
+  'furnish',
+  'parking',
+  'swimmingPool',
+  'heating',
+  'security',
+  'cellar',
+  'elevator',
+];
+
 /**
  * receive parameters and filter with only valid params
  * @param {Object} params
  */
-const validateParams = (params) => {
-  const validParams = [
-    'address',
-    'propertyType',
-    'location',
-    'price',
-    'rooms',
-    'bathrooms',
-    'squareMeters',
-    'priceMeters',
-    'furnish',
-    'parking',
-    'swimmingPool',
-    'heating',
-    'security',
-    'cellar',
-    'elevator',
-  ];
-  return buildParams(validParams, params);
-};
+const validateParams = (validParams, params) => buildParams(validParams, params);
 
 /**
  * Validate that required params it existed
  * @param {Object} params
  */
-const validateRequiredParams = (params) => {
-  const requiredParams = [
-    'propertyType',
-    'location',
-    'price',
-    'rooms',
-    'bathrooms',
-    'squareMeters',
-    'priceMeters',
-    'furnish',
-    'parking',
-    'swimmingPool',
-    'heating',
-    'security',
-    'cellar',
-    'elevator',
-  ];
+const validateRequiredParams = (requiredParams, params) => {
   requiredParams.forEach((field) => {
     if (!params[field]) {
       throw new FieldsRequiredError(`Field ${field} is required`, 400);
@@ -73,7 +65,7 @@ const findAll = async (filters) => {
     limit, skip, sort, page,
   } = setupPagination(filters);
 
-  const query = validateParams(filters);
+  const query = validateParams(fields, filters);
   query.isDisabled = false;
   query.isApprove = true;
 
@@ -97,12 +89,12 @@ const findAll = async (filters) => {
  * @param {Property} property
  */
 const insert = async (offererId, property) => {
-  const params = validateParams(property);
+  const params = validateParams(fields, property);
   const isApprove = false;
   const isDisabled = false;
   const offerer = offererId;
 
-  validateRequiredParams(params);
+  validateRequiredParams(fields, params);
 
   const createdProperty = await Property.create({
     offerer,
@@ -134,7 +126,7 @@ const findById = async (propertyId) => {
 const update = async (propertyId, property, offererId) => {
   const query = { _id: propertyId, isDisabled: false, offerer: offererId };
 
-  const params = property; // validateParams(property);
+  const params = validateParams(fields, property);
   const updatedProperty = await Property.updateOne(query, { $set: { ...params } });
 
   if (updatedProperty.nModified !== 1) {
