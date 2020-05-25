@@ -57,6 +57,13 @@ const destroy = async (propertyId) => {
   return Promise.resolve(PropertiesMock[0].id);
 };
 
+const findMyProperties = async (offererId, queries) => {
+  console.log(queries);
+  console.log(queries.error === 'true');
+  if (queries.error === 'true') throw false;
+  return Promise.resolve(PropertiesMock[0]);
+};
+
 module.exports = {
   PropertiesMock,
   PropertiesService: {
@@ -65,5 +72,6 @@ module.exports = {
     insert,
     update,
     destroy,
+    findMyProperties,
   },
 };

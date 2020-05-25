@@ -177,4 +177,37 @@ describe('routes - properties', () => {
         });
     });
   });
+
+  describe('GET /properties/my', () => {
+    it('should response with status code 200', (done) => {
+      request.get('/my').expect(200, done);
+    });
+    it('should response with a property updated', (done) => {
+      request
+        .get('/my')
+        .end((error, res) => {
+          assert.deepEqual(res.body, {
+            error: false,
+            status: 200,
+            message: 'properties listed',
+            body: PropertiesMock[0],
+          });
+          done();
+        });
+    });
+    it('should response with a error', (done) => {
+      request
+        .get('/my')
+        .query({ error: true })
+        .end((error, res) => {
+          assert.deepEqual(res.body, {
+            "body": {},
+            "error": false,
+            "message": "property retrieved",
+            "status": 200,
+          });
+          done();
+        });
+    });
+  });
 });
