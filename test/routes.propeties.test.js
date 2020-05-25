@@ -82,6 +82,39 @@ describe('routes - properties', () => {
     });
   });
 
+  describe('POST /properties', () => {
+    const data = { ...PropertiesMock[0] };
+    it('should response with status code 200', (done) => {
+      request
+        .post('/')
+        .send(data)
+        .expect(201, done);
+    });
+    it('should response with a property created', (done) => {
+      request
+        .post('/')
+        .send(data)
+        .end((error, res) => {
+          assert.deepEqual(res.body, {
+            error: false,
+            status: 201,
+            message: 'property created',
+            body: PropertiesMock[0],
+          });
+          done();
+        });
+    });
+    it('should response with a error', (done) => {
+      request
+        .post('/')
+        .send({ error: true })
+        .end((error, res) => {
+          assert.deepEqual(res.body, {});
+          done();
+        });
+    });
+  });
+
   describe('PATCH /properties/:id', () => {
     const updateData = {
       propertyType: 'house',

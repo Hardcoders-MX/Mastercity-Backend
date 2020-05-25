@@ -40,6 +40,12 @@ const findById = async (propertyId) => {
   return Promise.resolve(property[0]);
 };
 
+const insert = async (offererId, property) => {
+  if (property.error) throw false;
+  return Promise.resolve(PropertiesMock[0]);
+};
+
+
 const update = async (propertyId, property) => {
   const { propertyType, rooms, bathrooms } = property;
   if (!propertyId || !propertyType || !rooms || !bathrooms) throw false;
@@ -56,6 +62,7 @@ module.exports = {
   PropertiesService: {
     findAll,
     findById,
+    insert,
     update,
     destroy,
   },
