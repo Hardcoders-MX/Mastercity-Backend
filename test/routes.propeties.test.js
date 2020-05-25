@@ -182,7 +182,7 @@ describe('routes - properties', () => {
     it('should response with status code 200', (done) => {
       request.get('/my').expect(200, done);
     });
-    it('should response with a property updated', (done) => {
+    it('should response with a properties listed', (done) => {
       request
         .get('/my')
         .end((error, res) => {
@@ -201,10 +201,43 @@ describe('routes - properties', () => {
         .query({ error: true })
         .end((error, res) => {
           assert.deepEqual(res.body, {
-            "body": {},
-            "error": false,
-            "message": "property retrieved",
-            "status": 200,
+            body: {},
+            error: false,
+            message: 'property retrieved',
+            status: 200,
+          });
+          done();
+        });
+    });
+  });
+
+  describe('GET /properties/unapprove', () => {
+    it('should response with status code 200', (done) => {
+      request.get('/unapproved').expect(200, done);
+    });
+    it('should response with a properties listed', (done) => {
+      request
+        .get('/unapproved')
+        .end((error, res) => {
+          assert.deepEqual(res.body, {
+            error: false,
+            status: 200,
+            message: 'unapproved properties',
+            body: PropertiesMock[0],
+          });
+          done();
+        });
+    });
+    it('should response with a error', (done) => {
+      request
+        .get('/unapproved')
+        .query({ error: true })
+        .end((error, res) => {
+          assert.deepEqual(res.body, {
+            body: {},
+            error: false,
+            message: 'property retrieved',
+            status: 200,
           });
           done();
         });

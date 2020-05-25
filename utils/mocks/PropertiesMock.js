@@ -58,8 +58,11 @@ const destroy = async (propertyId) => {
 };
 
 const findMyProperties = async (offererId, queries) => {
-  console.log(queries);
-  console.log(queries.error === 'true');
+  if (queries.error === 'true') throw false;
+  return Promise.resolve(PropertiesMock[0]);
+};
+
+const findUnapproveProperties = async (queries) => {
   if (queries.error === 'true') throw false;
   return Promise.resolve(PropertiesMock[0]);
 };
@@ -73,5 +76,6 @@ module.exports = {
     update,
     destroy,
     findMyProperties,
+    findUnapproveProperties,
   },
 };
