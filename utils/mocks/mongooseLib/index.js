@@ -1,8 +1,9 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 const sinon = require('sinon');
-const { PropertiesMock } = require('./PropertiesMock');
-const { FavoritesMock } = require('./FavoritesMock');
-
+const { findStub, populateStub } = require('./findStub');
+const { PropertiesMock } = require('../PropertiesMock');
+const { FavoritesMock } = require('../FavoritesMock');
+/*
 const populateStub = sinon.stub();
 populateStub.withArgs('property').resolves(FavoritesMock);
 
@@ -16,6 +17,7 @@ limit.withArgs().returns({ sort });
 const findStub = sinon.stub();
 findStub.returns({ limit });
 findStub.withArgs({ user: FavoritesMock[0].user }).returns({ populate: populateStub });
+*/
 
 const countDocumentsStub = sinon.stub();
 countDocumentsStub.withArgs().resolves(10);

@@ -5,6 +5,7 @@ const testServer = require('../utils/testServer');
 const { PropertiesService, PropertiesMock } = require('../utils/mocks/PropertiesMock');
 const PassportMock = require('../utils/mocks/PassportMock');
 const scopesValidationHandlerMock = require('../utils/mocks/scopesValidationHandlerMock');
+const isOfThisTypeMock = require('../utils/mocks/isOfThisTypeMock');
 
 describe('routes - properties', () => {
   const controller = proxyquire('../components/properties/controller', {
@@ -14,6 +15,7 @@ describe('routes - properties', () => {
     './controller': controller,
     passport: PassportMock,
     '../../utils/middleware/scopesValidationHandler': scopesValidationHandlerMock,
+    '../../utils/middleware/isOfThisType': isOfThisTypeMock,
   });
 
   const request = testServer(router);
@@ -73,6 +75,42 @@ describe('routes - properties', () => {
     it('should response with a error', (done) => {
       request
         .get('/error')
+        .end((error, res) => {
+          assert.deepEqual(res.body, {});
+          done();
+        });
+    });
+  });
+
+  describe('PATCH /properties/:id', () => {
+    const updateData = {
+      propertyType: 'house',
+      rooms: 5,
+      bathrooms: 2,
+    };
+    it('should response with status code 200', (done) => {
+      request
+        .patch(`/${PropertiesMock[0].id}`)
+        .send(updateData)
+        .expect(200, done);
+    });
+    it('should response with a property updated', (done) => {
+      request
+        .patch(`/${PropertiesMock[0].id}`)
+        .send(updateData)
+        .end((error, res) => {
+          assert.deepEqual(res.body, {
+            error: false,
+            status: 200,
+            message: 'property updated',
+            body: updateData,
+          });
+          done();
+        });
+    });
+    it('should response with a error', (done) => {
+      request
+        .patch(`/${PropertiesMock[0].id}`)
         .end((error, res) => {
           assert.deepEqual(res.body, {});
           done();

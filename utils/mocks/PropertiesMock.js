@@ -40,10 +40,18 @@ const findById = async (propertyId) => {
   return Promise.resolve(property[0]);
 };
 
+const update = async (propertyId, property) => {
+  const { propertyType, rooms, bathrooms } = property;
+  if (!propertyId || !propertyType || !rooms || !bathrooms) throw false;
+  return { propertyType, rooms, bathrooms };
+};
+
+
 module.exports = {
   PropertiesMock,
   PropertiesService: {
     findAll,
     findById,
+    update,
   },
 };
