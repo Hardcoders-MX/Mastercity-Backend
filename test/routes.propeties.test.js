@@ -243,4 +243,32 @@ describe('routes - properties', () => {
         });
     });
   });
+
+  describe('PATCH /:id/approve', () => {
+    it('should response with status code 200', (done) => {
+      request.patch(`/${PropertiesMock[0].id}/approve`).expect(200, done);
+    });
+    it('should response with a properties listed', (done) => {
+      request
+        .patch(`/${PropertiesMock[0].id}/approve`)
+        .end((error, res) => {
+          assert.deepEqual(res.body, {
+            error: false,
+            status: 200,
+            message: 'property approved',
+            body: PropertiesMock[0],
+          });
+          done();
+        });
+    });
+    it('should response with a error', (done) => {
+      request
+        .patch('/error/approve')
+        .query({ error: true })
+        .end((error, res) => {
+          assert.deepEqual(res.body, {});
+          done();
+        });
+    });
+  });
 });

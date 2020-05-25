@@ -67,6 +67,11 @@ const findUnapproveProperties = async (queries) => {
   return Promise.resolve(PropertiesMock[0]);
 };
 
+const approve = async (propertyId) => {
+  if (propertyId === 'error') throw false;
+  return Promise.resolve(PropertiesMock[0]);
+};
+
 module.exports = {
   PropertiesMock,
   PropertiesService: {
@@ -77,5 +82,6 @@ module.exports = {
     destroy,
     findMyProperties,
     findUnapproveProperties,
+    approve,
   },
 };

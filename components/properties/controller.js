@@ -94,9 +94,8 @@ const destroy = async (req, res, next) => {
  */
 const approve = async (req, res, next) => {
   const propertyId = req.params.id;
-  const { profileType } = req.user._doc;
   try {
-    const approvedProperty = await serviceProperty.approve(propertyId, profileType);
+    const approvedProperty = await serviceProperty.approve(propertyId);
     success(res, 'property approved', approvedProperty, 200);
   } catch (error) {
     next(error);
