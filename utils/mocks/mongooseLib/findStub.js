@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
 const sinon = require('sinon');
 const { PropertiesMock } = require('../PropertiesMock');
 const { FavoritesMock } = require('../FavoritesMock');

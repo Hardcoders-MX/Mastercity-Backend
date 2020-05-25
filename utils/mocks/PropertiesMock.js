@@ -46,6 +46,10 @@ const update = async (propertyId, property) => {
   return { propertyType, rooms, bathrooms };
 };
 
+const destroy = async (propertyId) => {
+  if (propertyId === 'error') throw false;
+  return Promise.resolve(PropertiesMock[0].id);
+};
 
 module.exports = {
   PropertiesMock,
@@ -53,5 +57,6 @@ module.exports = {
     findAll,
     findById,
     update,
+    destroy,
   },
 };

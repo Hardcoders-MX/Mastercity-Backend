@@ -117,4 +117,31 @@ describe('routes - properties', () => {
         });
     });
   });
+
+  describe('DELETE /properties/:id', () => {
+    it('should response with status code 200', (done) => {
+      request.delete(`/${PropertiesMock[0].id}`).expect(200, done);
+    });
+    it('should response with a property updated', (done) => {
+      request
+        .delete(`/${PropertiesMock[0].id}`)
+        .end((error, res) => {
+          assert.deepEqual(res.body, {
+            error: false,
+            status: 200,
+            message: 'property deleted',
+            body: PropertiesMock[0].id,
+          });
+          done();
+        });
+    });
+    it('should response with a error', (done) => {
+      request
+        .delete('/error')
+        .end((error, res) => {
+          assert.deepEqual(res.body, {});
+          done();
+        });
+    });
+  });
 });
