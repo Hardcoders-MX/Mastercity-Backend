@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const config = require('../../config');
 const serviceUser = require('./service');
 const serviceApiKeys = require('./serviceApiKeys');
-const { success } = require('../../routes/response');
+const { success, unsuccess } = require('../../routes/response');
 
 // Basic startegy
 require('./strategies/basic');
@@ -12,6 +12,8 @@ const create = async (req, res, next) => {
   const { body: user } = req;
 
   try {
+    const userExists = await serviceUser.getUser(user.email);
+    if (userExists.email === user.email) return unsuccess(res, 'Email registred', null, 424);
     const createdUser = await serviceUser.add(user);
     let data = '';
     // eslint-disable-next-line no-unused-expressions
