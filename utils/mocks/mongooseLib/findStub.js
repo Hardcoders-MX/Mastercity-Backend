@@ -10,8 +10,10 @@ const limit = sinon.stub();
 const findStub = sinon.stub();
 
 populateStub.withArgs('property').resolves(FavoritesMock);
-skip.withArgs().resolves(PropertiesMock);
-skip.withArgs(10).resolves([]);
+populateStub.withArgs('offerer').resolves(PropertiesMock);
+populateStub.withArgs().resolves([]);
+skip.withArgs().returns({ populate: populateStub });
+skip.withArgs(10).returns({ populate: () => populateStub() });
 sort.withArgs().returns({ skip });
 limit.withArgs().returns({ sort });
 findStub.returns({ limit });
