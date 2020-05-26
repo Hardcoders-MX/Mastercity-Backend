@@ -75,10 +75,6 @@ const findAll = async (filters) => {
     .skip(skip)
     .populate('offerer');
 
-  if (properties.length === 0) {
-    throw new NotFoundError('Not found properties', 404);
-  }
-
   const pagination = await toDoPagination(Property, { limit, page }, query);
 
   return { properties, pagination };
