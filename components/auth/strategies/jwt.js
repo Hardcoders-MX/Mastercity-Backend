@@ -12,7 +12,7 @@ passport.use(
   // eslint-disable-next-line consistent-return
   (async (tokenPayload, cb) => {
     try {
-      const user = await serviceUser.getUser({ email: tokenPayload.email });
+      const user = await serviceUser.getUser(tokenPayload.email);
       if (!user) cb('Usuario Not Found');
 
       delete user.password;

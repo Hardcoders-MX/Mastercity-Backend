@@ -24,15 +24,33 @@ DB_HOST=host.mongodb.net
 DB_USER=db_user
 DB_PASSWORD=12345
 DB_NAME=db_name
+DB_PORT=27017
 
 // Cloudinary
 CLOUDINARY_URL=
+
+// Sentry
+SENTRY_DNS=
+SENTRY_ID=
+
+//Auth
+AUTH_JWT_SECRET=
+
+// API Keys
+ADMIN_API_KEY_TOKEN=
+OFFERER_API_KEY_TOKEN=
+APPLICANT_API_KEY_TOKEN=
 ```
 
 ## Start
 Install dependencies
 ```bash
 npm install
+```
+
+Run script of scopes mode
+```bash
+npm run setup:api-keys
 ```
 
 Run development mode

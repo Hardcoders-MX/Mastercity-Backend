@@ -1,7 +1,6 @@
 const bcrypt = require('bcrypt');
 const User = require('./model');
 const buildParams = require('../../utils/buildParams');
-const { FieldsRequiredError } = require('../../utils/errors');
 
 /**
  * receive parameters and filter with only valid params
@@ -23,7 +22,8 @@ const validateParams = (params) => {
  * Validate that required params it existed
  * @param {Object} params
  */
-const validateRequiredParams = (params) => {
+/*
+ const validateRequiredParams = (params) => {
   const requiredParams = [
     'firstName',
     'lastName',
@@ -41,7 +41,7 @@ const validateRequiredParams = (params) => {
 
   return true;
 };
-
+*/
 
 /**
  * Inert one user in the database
@@ -63,6 +63,20 @@ const addUser = async (user) => {
   return createdUser;
 };
 
+
+/**
+ * Get a user by email
+ * @param {*} userId
+ */
+const getUser = async (email) => {
+  const user = await User.findOne({ email });
+  if (!user) {
+    throw new Error('not found');
+  }
+  return user;
+};
+
 module.exports = {
   add: addUser,
+  getUser,
 };
