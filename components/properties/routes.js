@@ -2,51 +2,72 @@ const express = require('express');
 const passport = require('passport');
 const controller = require('./controller');
 const scopesValidationHandler = require('../../utils/middleware/scopesValidationHandler');
+const isOfThisType = require('../../utils/middleware/isOfThisType');
 
 const routes = express.Router();
 
 require('../auth/strategies/jwt');
 
+// routes.use(passport.authenticate('jwt', { session: false }));
 routes.get(
   '/',
-  passport.authenticate('jwt', { session: false }),
-  scopesValidationHandler(['read:properties']),
-  controller.index
+  // scopesValidationHandler(['read:properties']),
+  // isOfThisType(['applicant', 'offerer', 'admin']),
+  controller.index,
 );
 
 routes.post(
   '/',
   passport.authenticate('jwt', { session: false }),
   scopesValidationHandler(['create:properties']),
-  controller.create
+  isOfThisType(['offerer']),
+  controller.create,
+);
+
+routes.get(
+  '/unapproved',
+  passport.authenticate('jwt', { session: false }),
+  scopesValidationHandler(['read:properties']),
+  isOfThisType(['admin']),
+  controller.unapproved,
+);
+
+routes.get(
+  '/my',
+  passport.authenticate('jwt', { session: false }),
+  scopesValidationHandler(['read:properties']),
+  isOfThisType(['offerer']),
+  controller.myProperties,
 );
 
 routes.get(
   '/:id',
-  passport.authenticate('jwt', { session: false }),
-  scopesValidationHandler(['read:properties']),
-  controller.show
+  // scopesValidationHandler(['read:properties']),
+  // isOfThisType(['applicant', 'offerer', 'admin']),
+  controller.show,
 );
 
 routes.patch(
   '/:id',
   passport.authenticate('jwt', { session: false }),
   scopesValidationHandler(['update:properties']),
-  controller.update
+  isOfThisType(['offerer']),
+  controller.update,
 );
 
 routes.delete(
   '/:id',
   passport.authenticate('jwt', { session: false }),
   scopesValidationHandler(['delete:properties']),
-  controller.destroy
+  isOfThisType(['offerer']),
+  controller.destroy,
 );
 
 routes.patch(
   '/:id/approve',
   passport.authenticate('jwt', { session: false }),
   scopesValidationHandler(['update:properties']),
-  controller.approve
-)
+  controller.approve,
+);
 
 module.exports = routes;

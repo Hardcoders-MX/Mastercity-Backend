@@ -1,4 +1,5 @@
 /* eslint-disable no-undef */
+
 const assert = require('assert');
 const proxyquire = require('proxyquire');
 const {
@@ -28,8 +29,8 @@ describe('service - properties', () => {
         properties: PropertiesMock,
         pagination: {
           page: 1,
-          totalPages: 1,
-          totalProperties: 10,
+          pages: 1,
+          total: 10,
         },
       };
       assert.deepEqual(result, expected);
@@ -38,8 +39,8 @@ describe('service - properties', () => {
     it('should generate a error', async () => {
       service.findAll({ page: 2 })
         .catch((error) => {
-          const result = error;
-          const expected = new NotFoundError('Not found properties', 404);
+          const result = error.message;
+          const expected = 'Not found properties';
           assert.deepEqual(result, expected);
         });
     });
@@ -47,7 +48,7 @@ describe('service - properties', () => {
 
   describe('when findById method is called', async () => {
     it('should call the findOne MongoLib Method', async () => {
-      await service.findById(10);
+      await service.findById(PropertiesMock[0].id);
       assert.strictEqual(findOneStub.called, true);
     });
     it('should call the findOne MongoLib Method', async () => {

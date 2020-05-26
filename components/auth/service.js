@@ -1,7 +1,6 @@
 const bcrypt = require('bcrypt');
 const User = require('./model');
 const buildParams = require('../../utils/buildParams');
-const { FieldsRequiredError } = require('../../utils/errors');
 
 /**
  * receive parameters and filter with only valid params
@@ -23,7 +22,8 @@ const validateParams = (params) => {
  * Validate that required params it existed
  * @param {Object} params
  */
-const validateRequiredParams = (params) => {
+/*
+ const validateRequiredParams = (params) => {
   const requiredParams = [
     'firstName',
     'lastName',
@@ -41,7 +41,7 @@ const validateRequiredParams = (params) => {
 
   return true;
 };
-
+*/
 
 /**
  * Inert one user in the database

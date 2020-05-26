@@ -1,4 +1,6 @@
 const express = require('express');
+const helmet = require('helmet');
+const cors = require('cors');
 const logger = require('morgan');
 const db = require('./databases/mongodb');
 
@@ -6,8 +8,10 @@ const { info } = require('./utils/debug');
 const routes = require('./routes');
 const config = require('./config');
 
+const { logErrors } = require('./utils/errorsHandlers');
+
 const {
-  mongodbUri, user, password, host, port, name,
+  mongodbUri, user, password, host, name,
 } = config.db;
 
 let MONGODB_URI = mongodbUri;
@@ -19,6 +23,8 @@ if (config.srv.mode === 'development') {
 db.connect(MONGODB_URI);
 
 const app = express();
+app.use(helmet());
+app.use(cors());
 
 app.use(logger('dev', { stream: { write: (msg) => info(msg) } }));
 app.use(express.json());
@@ -29,6 +35,8 @@ app.get('/', (req, res) => {
 });
 
 routes(app);
+
+app.use(logErrors);
 
 app.listen(config.srv.port, () => {
   info(`server runing in http://localhost:${config.srv.port}`);

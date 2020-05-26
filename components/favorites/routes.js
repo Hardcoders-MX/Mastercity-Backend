@@ -12,13 +12,13 @@ router.get(
   '/:user',
   passport.authenticate('jwt', { session: false }),
   scopesValidationHandler(['read:favorites-applicant']),
-  controller.index
+  controller.index,
 );
 router.post(
   '/',
   passport.authenticate('jwt', { session: false }),
   scopesValidationHandler(['create:favorites-applicant']),
-  controller.create
+  controller.create,
 );
 
 module.exports = router;

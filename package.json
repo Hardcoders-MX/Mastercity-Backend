@@ -6,24 +6,28 @@
     "start": "node index",
     "dev": "DEBUG=app:* nodemon index",
     "setup:api-keys": "DEBUG=app:* node scripts/seedApiKeys.js",
-    "lint": "eslint --ext .json --ext .js ./",
+    "lint": "eslint --ext .js ./",
     "test": "mocha --exit",
     "cover": "nyc npm run test",
     "report": "nyc report --reporter=html"
   },
   "dependencies": {
+    "@sentry/node": "^5.15.5",
     "bcrypt": "^4.0.1",
     "cloudinary": "^1.21.0",
+    "cors": "^2.8.5",
     "debug": "^4.1.1",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "helmet": "^3.22.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.9.12",
     "morgan": "^1.10.0",
     "multer": "^1.4.2",
     "passport": "^0.4.1",
     "passport-http": "^0.3.0",
-    "passport-jwt": "^4.0.0"
+    "passport-jwt": "^4.0.0",
+    "swagger-ui-express": "^4.1.4"
   },
   "devDependencies": {
     "eslint": "^6.8.0",
