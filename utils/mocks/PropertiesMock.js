@@ -40,10 +40,48 @@ const findById = async (propertyId) => {
   return Promise.resolve(property[0]);
 };
 
+const insert = async (offererId, property) => {
+  if (property.error) throw false;
+  return Promise.resolve(PropertiesMock[0]);
+};
+
+
+const update = async (propertyId, property) => {
+  const { propertyType, rooms, bathrooms } = property;
+  if (!propertyId || !propertyType || !rooms || !bathrooms) throw false;
+  return { propertyType, rooms, bathrooms };
+};
+
+const destroy = async (propertyId) => {
+  if (propertyId === 'error') throw false;
+  return Promise.resolve(PropertiesMock[0].id);
+};
+
+const findMyProperties = async (offererId, queries) => {
+  if (queries.error === 'true') throw false;
+  return Promise.resolve(PropertiesMock[0]);
+};
+
+const findUnapproveProperties = async (queries) => {
+  if (queries.error === 'true') throw false;
+  return Promise.resolve(PropertiesMock[0]);
+};
+
+const approve = async (propertyId) => {
+  if (propertyId === 'error') throw false;
+  return Promise.resolve(PropertiesMock[0]);
+};
+
 module.exports = {
   PropertiesMock,
   PropertiesService: {
     findAll,
     findById,
+    insert,
+    update,
+    destroy,
+    findMyProperties,
+    findUnapproveProperties,
+    approve,
   },
 };
