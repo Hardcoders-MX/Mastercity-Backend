@@ -13,12 +13,15 @@ const create = async (req, res, next) => {
 
   try {
     const userExists = await serviceUser.getUser(user.email);
-    if (userExists.email === user.email) return unsuccess(res, 'Email registred', null, 424);
-    const createdUser = await serviceUser.add(user);
-    let data = '';
-    // eslint-disable-next-line no-unused-expressions
-    config.srv.mode === 'development' ? data = createdUser : data = '';
-    success(res, 'User created', data, 201);
+    if (userExists.email === user.email) {
+      unsuccess(res, 'Email registred', null, 424);
+    } else {
+      const createdUser = await serviceUser.add(user);
+      let data = '';
+      // eslint-disable-next-line no-unused-expressions
+      config.srv.mode === 'development' ? data = createdUser : data = '';
+      success(res, 'User created', data, 201);
+    }
   } catch (error) {
     next(error);
   }

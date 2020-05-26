@@ -19,12 +19,20 @@ const userSchema = new Schema({
     type: String,
     default: true,
   },
+  direction: {
+    type: String,
+    default: true,
+  },
   profileType: {
     type: String,
     default: true,
     enum: ['admin', 'offerer', 'applicant'],
   },
   isDisable: {
+    type: Boolean,
+    required: true,
+  },
+  isRealEstate: {
     type: Boolean,
     required: true,
   },

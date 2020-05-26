@@ -12,8 +12,10 @@ const validateParams = (params) => {
     'lastName',
     'email',
     'password',
+    'direction',
     'userType',
     'profileType',
+    'isRealEstate',
   ];
   return buildParams(validParams, params);
 };
@@ -69,10 +71,10 @@ const addUser = async (user) => {
  * @param {*} userId
  */
 const getUser = async (email) => {
-  const user = await User.findOne({ email });
-  if (!user) {
-    throw new Error('not found');
-  }
+  let user = await User.findOne({ email });
+  // eslint-disable-next-line no-unused-expressions
+  (!user) ? user = [] : user;
+
   return user;
 };
 
