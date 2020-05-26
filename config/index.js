@@ -26,6 +26,13 @@ const config = {
     offererApiKeyToken: process.env.OFFERER_API_KEY_TOKEN,
     applicantApiKeyToken: process.env.APPLICANT_API_KEY_TOKEN,
   },
+  email: {
+    host: process.env.EMAIL_HOST,
+    port: process.env.EMAIL_PORT,
+    secure: Boolean(process.env.EMAIL_SECURE),
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS,
+  },
 };
 
 module.exports = config;
