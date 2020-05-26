@@ -70,7 +70,7 @@ const signin = (req, res, next) => {
           expiresIn: '15m',
         });
 
-        return res.status(200).json({ token, user: { id, email } });
+        return res.status(200).json({ token, user });
       });
     } catch (err) {
       next(err);
