@@ -15,7 +15,7 @@ const config = {
     mongodbUri: process.env.MONGODB_URI,
   },
   sentry: {
-    sentryDns: process.env.SENTRY_DNS,
+    sentryDns: process.env.SENTRY_DSN,
     sentryId: process.env.SENTRY_ID,
   },
   auth: {
