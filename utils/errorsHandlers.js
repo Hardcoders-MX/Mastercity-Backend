@@ -6,10 +6,12 @@ const {
   sentryDns,
 } = config.sentry;
 
-Sentry.init({ dsn: sentryDns });
+if (config.srv.mode === 'production') {
+    Sentry.init({ dsn: sentryDns });
+}
 
 function logErrors(err, req, res, next) {
-  Sentry.captureException(err);
+  if (config.srv.mode === 'production') Sentry.captureException(err);
   debug(err.stack);
   next(err);
 }
