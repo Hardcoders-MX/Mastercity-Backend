@@ -8,7 +8,13 @@ const { info } = require('./utils/debug');
 const routes = require('./routes');
 const config = require('./config');
 
-const { logErrors } = require('./utils/errorsHandlers');
+const {
+  logErrors,
+  wrapErrors,
+  errorHandler,
+} = require('./utils/errorsHandlers');
+
+const notFoundHandler = require('./utils/middleware/notFoundHandler');
 
 const {
   mongodbUri, user, password, host, name,
@@ -35,8 +41,11 @@ app.get('/', (req, res) => {
 });
 
 routes(app);
+app.use(notFoundHandler);
 
 app.use(logErrors);
+app.use(wrapErrors);
+app.use(errorHandler);
 
 app.listen(config.srv.port, () => {
   info(`server runing in http://localhost:${config.srv.port}`);
