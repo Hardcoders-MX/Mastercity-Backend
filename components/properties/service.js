@@ -147,7 +147,7 @@ const update = async (propertyId, property, offererId) => {
     throw new ServerError('error to update property');
   }
 
-  return updatedProperty;
+  return false;
 };
 
 /**
@@ -162,7 +162,7 @@ const destroy = async (propertyId, offererId) => {
   if (deletedProperty.nModified !== 1) {
     throw new ServerError('error to delete property');
   }
-  return deletedProperty;
+  return false;
 };
 
 /**
@@ -178,7 +178,7 @@ const approve = async (propertyId) => {
     throw new ServerError('error to approve property');
   }
 
-  return approvedProperty;
+  return false;
 };
 
 const findMyProperties = async (offererId, queries) => {

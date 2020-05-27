@@ -326,6 +326,12 @@
           "required" : false,
           "type" : "string"
         }, {
+          "name" : "operationType",
+          "in" : "query",
+          "description" : "be can rent or buy",
+          "required" : false,
+          "type" : "string"
+        }, {
           "name" : "propertyType",
           "in" : "query",
           "description" : "office",
@@ -725,7 +731,7 @@
     },
     "Property" : {
       "type" : "object",
-      "required" : [ "address", "bathrooms", "cellar", "elevator", "furnish", "heating", "isAprove", "isDisable", "location", "mediaFiles", "parking", "price", "priceMeters", "propertyType", "rooms", "security", "squareMeters", "swimmingPool" ],
+      "required" : [ "address", "bathrooms", "cellar", "elevator", "furnish", "heating", "isAprove", "isDisable", "location", "mediaFiles", "parking", "price", "priceMeters", "operationType", "propertyType", "rooms", "security", "squareMeters", "swimmingPool" ],
       "properties" : {
         "address" : {
           "type" : "object",
@@ -744,6 +750,10 @@
           "items" : {
             "$ref" : "#/definitions/MediaFiles"
           }
+        },
+        "operationType": {
+          "type" : "string",
+          "example" : "buy"
         },
         "propertyType" : {
           "type" : "string",
@@ -919,6 +929,9 @@
         },
         "location.len" : {
           "type" : "number"
+        },
+        "operationType": {
+          "type": "string"
         },
         "propertyType" : {
           "type" : "string"
