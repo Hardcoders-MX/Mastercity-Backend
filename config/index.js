@@ -15,7 +15,7 @@ const config = {
     mongodbUri: process.env.MONGODB_URI,
   },
   sentry: {
-    sentryDns: process.env.SENTRY_DNS,
+    sentryDns: process.env.SENTRY_DSN,
     sentryId: process.env.SENTRY_ID,
   },
   auth: {
@@ -25,6 +25,13 @@ const config = {
     adminApiKeyToken: process.env.ADMIN_API_KEY_TOKEN,
     offererApiKeyToken: process.env.OFFERER_API_KEY_TOKEN,
     applicantApiKeyToken: process.env.APPLICANT_API_KEY_TOKEN,
+  },
+  email: {
+    host: process.env.EMAIL_HOST,
+    port: process.env.EMAIL_PORT,
+    secure: Boolean(process.env.EMAIL_SECURE),
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS,
   },
 };
 
