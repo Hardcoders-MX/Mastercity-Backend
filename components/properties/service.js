@@ -17,6 +17,7 @@ const fields = [
   'location.len',
   'mediaFiles',
   'propertyType',
+  'operationType',
   'price',
   'rooms',
   'bathrooms',
@@ -51,6 +52,22 @@ const validateRequiredParams = (requiredParams, params) => {
   return true;
 };
 
+const findProperties = async (query, limit, sort, skip) => (
+  await Property.find(query)
+    .limit(limit)
+    .sort(sort)
+    .skip(skip)
+    .populate('offerer')
+).map((prop) => {
+  // eslint-disable-next-line no-underscore-dangle
+  const property = { ...prop._doc };
+  if (property.offerer) {
+    property.offerer.password = '';
+    return property;
+  }
+  return prop;
+});
+
 /**
  * Find a list of properties with pagination
  * receive two type of filters in the same object
@@ -62,19 +79,17 @@ const validateRequiredParams = (requiredParams, params) => {
  */
 const findAll = async (filters) => {
   const {
-    limit, skip, sort, page,
+    limit,
+    skip,
+    sort,
+    page,
   } = setupPagination(filters);
 
   const query = validateParams(fields, filters);
   query.isDisabled = false;
   query.isApprove = true;
 
-  const properties = await Property.find(query)
-    .limit(limit)
-    .sort(sort)
-    .skip(skip)
-    .populate('offerer');
-
+  const properties = await findProperties(query, limit, sort, skip);
   const pagination = await toDoPagination(Property, { limit, page }, query);
 
   return { properties, pagination };
@@ -107,9 +122,12 @@ const insert = async (offererId, property) => {
  * @param {*} propertyId
  */
 const findById = async (propertyId) => {
-  const property = await Property.findOne({ _id: propertyId, isDisabled: false, isApprove: true });
+  const property = await Property.findOne({ _id: propertyId, isDisabled: false, isApprove: true }).populate('offerer');
   if (!property) {
     throw new NotFoundError('not found property');
+  }
+  if (property.offerer) {
+    property.offerer.password = '';
   }
   return property;
 };
@@ -167,14 +185,14 @@ const findMyProperties = async (offererId, queries) => {
   if (!offererId) throw new FieldsRequiredError();
 
   const {
-    limit, skip, sort, page,
+    limit,
+    skip,
+    sort,
+    page,
   } = setupPagination(queries);
 
   const query = { offerer: offererId, isDisabled: false };
-  const properties = await Property.find(query)
-    .limit(limit)
-    .sort(sort)
-    .skip(skip);
+  const properties = await findProperties(query, limit, sort, skip);
 
   const pagination = await toDoPagination(Property, { limit, page }, query);
 
@@ -183,15 +201,14 @@ const findMyProperties = async (offererId, queries) => {
 
 const findUnapproveProperties = async (queries) => {
   const {
-    limit, skip, sort, page,
+    limit,
+    skip,
+    sort,
+    page,
   } = setupPagination(queries);
 
   const query = { isApprove: false };
-  const properties = await Property.find(query)
-    .limit(limit)
-    .sort(sort)
-    .skip(skip)
-    .populate('offerer');
+  const properties = await findProperties(query, limit, sort, skip);
 
   const pagination = await toDoPagination(Property, { limit, page }, query);
 
