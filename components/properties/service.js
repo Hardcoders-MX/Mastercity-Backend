@@ -1,8 +1,11 @@
+/* eslint-disable no-underscore-dangle */
 const Property = require('./model');
 const buildParams = require('../../utils/buildParams');
 const { FieldsRequiredError, NotFoundError, ServerError } = require('../../utils/errors');
 const setupPagination = require('../../utils/paginate/setupPagination');
 const toDoPagination = require('../../utils/paginate/toDoPagination');
+const sendEmail = require('../../utils/mail/index');
+const { info, error } = require('../../utils/debug');
 
 const fields = [
   'address.postalCode',
@@ -31,6 +34,18 @@ const fields = [
   'cellar',
   'elevator',
 ];
+
+const sendNotification = async (id) => {
+  const property = await Property.findById(id).populate('offerer');
+  const { email } = property.offerer;
+  const subject = 'Property approved';
+  const body = `
+      <h1>Hello ${property.offerer.firstName} ${property.offerer.lastName}</h1> 
+      <p>congratulations your property with id ${property._id} was approve</p>
+    `;
+  return sendEmail(email, subject, body);
+};
+
 
 /**
  * receive parameters and filter with only valid params
@@ -177,6 +192,16 @@ const approve = async (propertyId) => {
   if (approvedProperty.nModified !== 1) {
     throw new ServerError('error to approve property');
   }
+
+  sendNotification(propertyId)
+    .then((res) => {
+      info(res.messageId);
+      info('email sended');
+    })
+    .catch((err) => {
+      error(err.message);
+      error(err.stack);
+    });
 
   return false;
 };
