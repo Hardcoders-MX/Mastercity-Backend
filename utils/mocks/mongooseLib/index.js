@@ -23,8 +23,9 @@ const countDocumentsStub = sinon.stub();
 countDocumentsStub.withArgs().resolves(10);
 
 const findOneStub = sinon.stub();
+populateStub.withArgs('properti').resolves(PropertiesMock[0]);
 findOneStub.withArgs({ _id: PropertiesMock[0].id, isDisabled: false, isApprove: true })
-  .resolves(PropertiesMock[0]);
+  .returns({ populate: () => populateStub('properti') });
 
 findOneStub.withArgs({
   user: FavoritesMock[0].user,
