@@ -16,8 +16,12 @@ const newTransporter = () => {
 };
 
 const sendEmail = (email, subject, body) => {
+  if (!config.email.canSendEmail) {
+    return new Promise((resolve) => resolve({ messageId: 'email simulating' }));
+  }
+
   const settings = {
-    from: `Platzicity 🏙" ${config.email.user}`,
+    from: `Mastercity 🏙" ${config.email.user}`,
     to: email,
     subject,
     html: body,

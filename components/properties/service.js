@@ -41,7 +41,7 @@ const sendNotification = async (id) => {
   const subject = 'Property approved';
   const body = `
       <h1>Hello ${property.offerer.firstName} ${property.offerer.lastName}</h1> 
-      <p>congratulations your property with id ${property._id} was approve</p>
+      <p>congratulations your property with <strong>id: ${property._id}</strong> was approve</p>
     `;
   return sendEmail(email, subject, body);
 };
