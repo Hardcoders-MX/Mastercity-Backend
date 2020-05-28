@@ -247,6 +247,369 @@
           }
         ]
       }
+    },
+    "/properties" : {
+      "get" : {
+        "tags" : [ "properties" ],
+        "summary" : "Get a list of properties",
+        "description" : "Get a list of properties only this approved",
+        "parameters" : [ {
+          "name" : "limit",
+          "in" : "query",
+          "description" : "limit of properties by page, default 10",
+          "required" : false,
+          "type" : "number"
+        }, {
+          "name" : "page",
+          "in" : "query",
+          "description" : "number of page",
+          "required" : false,
+          "type" : "number"
+        }, {
+          "name" : "sort_name",
+          "in" : "query",
+          "description" : "name to field find",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "sort",
+          "in" : "query",
+          "description" : "order by ASC = 1 or DES = -1",
+          "required" : false,
+          "type" : "number"
+        }, {
+          "name" : "address.postalCode",
+          "in" : "query",
+          "description" : "08000",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "address.country",
+          "in" : "query",
+          "description" : "México",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "address.state",
+          "in" : "query",
+          "description" : "CDMX",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "address.townHall",
+          "in" : "query",
+          "description" : "Iztapalapa",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "address.colony",
+          "in" : "query",
+          "description" : "Torres",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "address.street",
+          "in" : "query",
+          "description" : "Sur 12 Oriente 228",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "address.outdoorNumber",
+          "in" : "query",
+          "description" : "2805",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "address.interiorNumber",
+          "in" : "query",
+          "description" : "2",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "operationType",
+          "in" : "query",
+          "description" : "be can rent or buy",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "propertyType",
+          "in" : "query",
+          "description" : "office",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "price",
+          "in" : "query",
+          "description" : "20800",
+          "required" : false,
+          "type" : "number"
+        }, {
+          "name" : "rooms",
+          "in" : "query",
+          "required" : false,
+          "type" : "number"
+        }, {
+          "name" : "bathrooms",
+          "in" : "query",
+          "required" : false,
+          "type" : "number"
+        }, {
+          "name" : "squareMeters",
+          "in" : "query",
+          "required" : false,
+          "type" : "number"
+        }, {
+          "name" : "priceMeters",
+          "in" : "query",
+          "required" : false,
+          "type" : "number"
+        }, {
+          "name" : "furnish",
+          "in" : "query",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "parking",
+          "in" : "query",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "swimmingPool",
+          "in" : "query",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "heating",
+          "in" : "query",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "security",
+          "in" : "query",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "cellar",
+          "in" : "query",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "elevator",
+          "in" : "query",
+          "required" : false,
+          "type" : "boolean"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "list of properties",
+            "schema" : {
+              "$ref" : "#/definitions/inline_response_200"
+            }
+          },
+          "400" : {
+            "$ref" : "#/definitions/NotFound"
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "properties" ],
+        "summary" : "Create a new property",
+        "description" : "create a new property but it don't aproved",
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "property",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/property"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "property created",
+            "schema" : {
+              "$ref" : "#/definitions/inline_response_200_1"
+            }
+          },
+          "400" : {
+            "$ref" : "#/definitions/FieldsRequired"
+          }
+        }
+      }
+    },
+    "/properties/my" : {
+      "get" : {
+        "tags" : [ "properties" ],
+        "summary" : "Get a list of properties by a offerer",
+        "parameters" : [ {
+          "name" : "limit",
+          "in" : "query",
+          "description" : "limit of properties by page, default 10",
+          "required" : false,
+          "type" : "number"
+        }, {
+          "name" : "page",
+          "in" : "query",
+          "description" : "number of page",
+          "required" : false,
+          "type" : "number"
+        }, {
+          "name" : "sort_name",
+          "in" : "query",
+          "description" : "name to field find",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "sort",
+          "in" : "query",
+          "description" : "order by ASC = 1 or DES = -1",
+          "required" : false,
+          "type" : "number"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "list of properties",
+            "schema" : {
+              "$ref" : "#/definitions/inline_response_200"
+            }
+          },
+          "400" : {
+            "$ref" : "#/definitions/NotFound"
+          }
+        }
+      }
+    },
+    "/properties/unapprove" : {
+      "get" : {
+        "tags" : [ "properties" ],
+        "summary" : "Get a list of properties don't approved",
+        "parameters" : [ {
+          "name" : "limit",
+          "in" : "query",
+          "description" : "limit of properties by page, default 10",
+          "required" : false,
+          "type" : "number"
+        }, {
+          "name" : "page",
+          "in" : "query",
+          "description" : "number of page",
+          "required" : false,
+          "type" : "number"
+        }, {
+          "name" : "sort_name",
+          "in" : "query",
+          "description" : "name to field find",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "sort",
+          "in" : "query",
+          "description" : "order by ASC = 1 or DES = -1",
+          "required" : false,
+          "type" : "number"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "list of properties",
+            "schema" : {
+              "$ref" : "#/definitions/inline_response_200"
+            }
+          },
+          "400" : {
+            "$ref" : "#/definitions/NotFound"
+          }
+        }
+      }
+    },
+    "/properties/{id}" : {
+      "get" : {
+        "tags" : [ "properties" ],
+        "summary" : "Get a property",
+        "description" : "Get a property if this is aproved",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "property retrieved",
+            "schema" : {
+              "$ref" : "#/definitions/inline_response_200_2"
+            }
+          },
+          "400" : {
+            "$ref" : "#/definitions/FieldsRequired"
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "properties" ],
+        "summary" : "Delete a property",
+        "description" : "Partially deleted of property",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "property deleted",
+            "schema" : {
+              "$ref" : "#/definitions/inline_response_200_3"
+            }
+          },
+          "400" : {
+            "$ref" : "#/definitions/NotFound"
+          }
+        }
+      },
+      "patch" : {
+        "tags" : [ "properties" ],
+        "summary" : "update a propery",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "property updated",
+            "schema" : {
+              "$ref" : "#/definitions/inline_response_200_4"
+            }
+          },
+          "400" : {
+            "$ref" : "#/definitions/NotFound"
+          }
+        }
+      }
+    },
+    "/properties/{id}/aprove" : {
+      "patch" : {
+        "tags" : [ "properties" ],
+        "summary" : "Aprove a property",
+        "description" : "Aprove a property, only a user of type admin can be it",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "property approved",
+            "schema" : {
+              "$ref" : "#/definitions/inline_response_200_5"
+            }
+          },
+          "400" : {
+            "$ref" : "#/definitions/NotFound"
+          }
+        }
+      }
     }
   },
   "securityDefinitions": {
@@ -288,6 +651,442 @@
       },
       "xml": {
         "name": "User"
+      }
+    },
+    "Address" : {
+      "type" : "object",
+      "required" : [ "colony", "country", "interiorNumber", "outdoorNumber", "postalCode", "state", "street", "townHall" ],
+      "properties" : {
+        "postalCode" : {
+          "type" : "string",
+          "example" : "08000"
+        },
+        "country" : {
+          "type" : "string",
+          "example" : "México"
+        },
+        "state" : {
+          "type" : "string",
+          "example" : "CDMX"
+        },
+        "townHall" : {
+          "type" : "string",
+          "example" : "Iztapalapa"
+        },
+        "colony" : {
+          "type" : "string",
+          "example" : "Magdalena"
+        },
+        "street" : {
+          "type" : "string",
+          "example" : "Sur 106 y Oriente 228"
+        },
+        "outdoorNumber" : {
+          "type" : "string",
+          "example" : "2820"
+        },
+        "interiorNumber" : {
+          "type" : "string",
+          "example" : "3"
+        }
+      }
+    },
+    "Location" : {
+      "type" : "object",
+      "required" : [ "lat", "len" ],
+      "properties" : {
+        "lat" : {
+          "type" : "number",
+          "example" : 123456.0
+        },
+        "len" : {
+          "type" : "number",
+          "example" : 123456.0
+        }
+      }
+    },
+    "File" : {
+      "type" : "object",
+      "required" : [ "format", "resource_type", "secure_url" ],
+      "properties" : {
+        "secure_url" : {
+          "type" : "string",
+          "example" : "https://localhost/my-img"
+        },
+        "resource_type" : {
+          "type" : "string",
+          "example" : "image"
+        },
+        "format" : {
+          "type" : "string",
+          "example" : "jpg"
+        }
+      }
+    },
+    "MediaFiles" : {
+      "type" : "array",
+      "items" : {
+        "$ref" : "#/definitions/File"
+      }
+    },
+    "Property" : {
+      "type" : "object",
+      "required" : [ "address", "bathrooms", "cellar", "elevator", "furnish", "heating", "isAprove", "isDisable", "location", "mediaFiles", "parking", "price", "priceMeters", "operationType", "propertyType", "rooms", "security", "squareMeters", "swimmingPool" ],
+      "properties" : {
+        "address" : {
+          "type" : "object",
+          "allOf" : [ {
+            "$ref" : "#/definitions/Address"
+          } ]
+        },
+        "location" : {
+          "type" : "object",
+          "allOf" : [ {
+            "$ref" : "#/definitions/Location"
+          } ]
+        },
+        "mediaFiles" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/MediaFiles"
+          }
+        },
+        "operationType": {
+          "type" : "string",
+          "example" : "buy"
+        },
+        "propertyType" : {
+          "type" : "string",
+          "example" : "office"
+        },
+        "price" : {
+          "type" : "number",
+          "example" : 50485.0
+        },
+        "rooms" : {
+          "type" : "number",
+          "example" : 4.0
+        },
+        "bathrooms" : {
+          "type" : "number",
+          "example" : 1.0
+        },
+        "squareMeters" : {
+          "type" : "number",
+          "example" : 64.0
+        },
+        "priceMeters" : {
+          "type" : "number",
+          "example" : 788.0
+        },
+        "furnish" : {
+          "type" : "boolean",
+          "example" : true
+        },
+        "parking" : {
+          "type" : "boolean",
+          "example" : true
+        },
+        "swimmingPool" : {
+          "type" : "boolean",
+          "example" : true
+        },
+        "heating" : {
+          "type" : "boolean",
+          "example" : true
+        },
+        "security" : {
+          "type" : "boolean",
+          "example" : true
+        },
+        "cellar" : {
+          "type" : "boolean",
+          "example" : true
+        },
+        "elevator" : {
+          "type" : "boolean",
+          "example" : true
+        },
+        "isAprove" : {
+          "type" : "boolean",
+          "example" : true
+        },
+        "isDisable" : {
+          "type" : "boolean",
+          "example" : false
+        }
+      }
+    },
+    "Error" : {
+      "type" : "object",
+      "properties" : {
+        "error" : {
+          "type" : "boolean",
+          "example" : false
+        },
+        "status" : {
+          "type" : "number",
+          "example" : 400.0
+        },
+        "message" : {
+          "type" : "string",
+          "example" : "the specified resource was not found"
+        },
+        "body" : {
+          "type" : "boolean",
+          "example" : false
+        }
+      }
+    },
+    "FieldsError" : {
+      "type" : "object",
+      "properties" : {
+        "error" : {
+          "type" : "boolean",
+          "example" : true
+        },
+        "status" : {
+          "type" : "number",
+          "example" : 400.0
+        },
+        "message" : {
+          "type" : "string",
+          "example" : "please send all fileds required"
+        },
+        "body" : {
+          "type" : "boolean",
+          "example" : false
+        }
+      }
+    },
+    "NotFound" : {
+      "allOf" : [ {
+        "$ref" : "#/definitions/Error"
+      }, { } ],
+      "description" : "The specified resource was not found"
+    },
+    "FieldsRequired" : {
+      "allOf" : [ {
+        "$ref" : "#/definitions/FieldsError"
+      }, { } ],
+      "description" : "Please send all fields are reuired"
+    },
+    "inline_response_200" : {
+      "type" : "object",
+      "properties" : {
+        "error" : {
+          "type" : "boolean",
+          "example" : false
+        },
+        "status" : {
+          "type" : "number",
+          "example" : 200.0
+        },
+        "message" : {
+          "type" : "string",
+          "example" : "property retrieved"
+        },
+        "body" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "allOf" : [ {
+              "$ref" : "#/definitions/Property"
+            } ]
+          }
+        }
+      }
+    },
+    "property" : {
+      "type" : "object",
+      "properties" : {
+        "address.postalCode" : {
+          "type" : "string"
+        },
+        "address.country" : {
+          "type" : "string"
+        },
+        "address.state" : {
+          "type" : "string"
+        },
+        "address.townHall" : {
+          "type" : "string"
+        },
+        "address.colony" : {
+          "type" : "string"
+        },
+        "address.street" : {
+          "type" : "string"
+        },
+        "address.outdoorNumber" : {
+          "type" : "string"
+        },
+        "address.interiorNumber" : {
+          "type" : "string"
+        },
+        "location.lat" : {
+          "type" : "number"
+        },
+        "location.len" : {
+          "type" : "number"
+        },
+        "operationType": {
+          "type": "string"
+        },
+        "propertyType" : {
+          "type" : "string"
+        },
+        "price" : {
+          "type" : "number"
+        },
+        "rooms" : {
+          "type" : "number"
+        },
+        "bathrooms" : {
+          "type" : "number"
+        },
+        "squareMeters" : {
+          "type" : "number"
+        },
+        "priceMeters" : {
+          "type" : "number"
+        },
+        "furnish" : {
+          "type" : "boolean"
+        },
+        "parking" : {
+          "type" : "boolean"
+        },
+        "swimmingPool" : {
+          "type" : "boolean"
+        },
+        "heating" : {
+          "type" : "boolean"
+        },
+        "security" : {
+          "type" : "boolean"
+        },
+        "cellar" : {
+          "type" : "boolean"
+        },
+        "elevator" : {
+          "type" : "boolean"
+        },
+        "mediaFiles" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/File"
+          }
+        }
+      }
+    },
+    "inline_response_200_1" : {
+      "type" : "object",
+      "properties" : {
+        "error" : {
+          "type" : "boolean",
+          "example" : false
+        },
+        "status" : {
+          "type" : "number",
+          "example" : 201.0
+        },
+        "message" : {
+          "type" : "string",
+          "example" : "property created"
+        },
+        "body" : {
+          "type" : "object",
+          "allOf" : [ {
+            "$ref" : "#/definitions/Property"
+          } ]
+        }
+      }
+    },
+    "inline_response_200_2" : {
+      "type" : "object",
+      "properties" : {
+        "error" : {
+          "type" : "boolean",
+          "example" : false
+        },
+        "status" : {
+          "type" : "number",
+          "example" : 200.0
+        },
+        "message" : {
+          "type" : "string",
+          "example" : "property retreived"
+        },
+        "body" : {
+          "type" : "object",
+          "allOf" : [ {
+            "$ref" : "#/definitions/Property"
+          } ]
+        }
+      }
+    },
+    "inline_response_200_3" : {
+      "type" : "object",
+      "properties" : {
+        "error" : {
+          "type" : "boolean",
+          "example" : false
+        },
+        "status" : {
+          "type" : "number",
+          "example" : 200.0
+        },
+        "message" : {
+          "type" : "string",
+          "example" : "property deleted"
+        },
+        "body" : {
+          "type" : "boolean",
+          "example" : false
+        }
+      }
+    },
+    "inline_response_200_4" : {
+      "type" : "object",
+      "properties" : {
+        "error" : {
+          "type" : "boolean",
+          "example" : false
+        },
+        "status" : {
+          "type" : "number",
+          "example" : 200.0
+        },
+        "message" : {
+          "type" : "string",
+          "example" : "property updated"
+        },
+        "body" : {
+          "type" : "boolean",
+          "example" : false
+        }
+      }
+    },
+    "inline_response_200_5" : {
+      "type" : "object",
+      "properties" : {
+        "error" : {
+          "type" : "boolean",
+          "example" : false
+        },
+        "status" : {
+          "type" : "number",
+          "example" : 200.0
+        },
+        "message" : {
+          "type" : "string",
+          "example" : "property approved"
+        },
+        "body" : {
+          "type" : "boolean",
+          "example" : false
+        }
       }
     }
   }

@@ -51,6 +51,10 @@ const propertySchema = new Schema({
     type: String,
     enum: ['house', 'department', 'office', 'studio'],
   },
+  operationType: {
+    type: String,
+    enum: ['buy', 'rent'],
+  },
   price: {
     type: Number,
     require: true,
