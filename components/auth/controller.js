@@ -4,6 +4,7 @@ const config = require('../../config');
 const serviceUser = require('./service');
 const serviceApiKeys = require('./serviceApiKeys');
 const { success, unsuccess } = require('../../routes/response');
+const sendEmail = require('../../utils/mail');
 
 // Basic startegy
 require('./strategies/basic');
@@ -17,6 +18,15 @@ const create = async (req, res, next) => {
       unsuccess(res, 'Email registred', null, 424);
     } else {
       const createdUser = await serviceUser.add(user);
+
+      const template = `<html>
+          <body>
+            <h1>Congratulations ${createdUser.firstName}</h1>
+            <p>Now you can enjoy all the benefits of Mastercity</p>
+          </body>
+        </html>
+      `;
+      await sendEmail(createdUser.email, 'Welcome to Mastercity', template);
       let data = '';
       // eslint-disable-next-line no-unused-expressions
       config.srv.mode === 'development' ? data = createdUser : data = '';
