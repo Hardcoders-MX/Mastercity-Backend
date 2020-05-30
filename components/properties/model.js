@@ -115,8 +115,9 @@ const propertySchema = new Schema({
   timestamps: true,
 });
 
-propertySchema.index({
+propertySchema.indexes({
   'address.country': 'text',
+  'address.city': 'text',
   'address.state': 'text',
   'address.townHall': 'text',
   'address.colony': 'text',

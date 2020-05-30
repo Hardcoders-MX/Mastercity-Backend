@@ -9,6 +9,7 @@ const { info, error } = require('../../utils/debug');
 // Ciudad, Estado, Municipio/Alcaldía, CP, Calle
 const fields = [
   'address.postalCode',
+  'address.city',
   'address.country',
   'address.state',
   'address.townHall',
