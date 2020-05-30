@@ -7,6 +7,10 @@ const addressSchema = new Schema({
     type: String,
     default: 'México',
   },
+  city: {
+    type: String,
+    required: true,
+  },
   state: {
     type: String,
     required: true,
