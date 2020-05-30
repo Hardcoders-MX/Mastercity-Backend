@@ -6,7 +6,7 @@ const setupPagination = require('../../utils/paginate/setupPagination');
 const toDoPagination = require('../../utils/paginate/toDoPagination');
 const sendEmail = require('../../utils/mail/index');
 const { info, error } = require('../../utils/debug');
-
+// Ciudad, Estado, Municipio/Alcaldía, CP, Calle
 const fields = [
   'address.postalCode',
   'address.country',
@@ -100,9 +100,13 @@ const findAll = async (filters) => {
     page,
   } = setupPagination(filters);
 
+  const { address } = filters;
   const query = validateParams(fields, filters);
   query.isDisabled = false;
   query.isApprove = true;
+  if (address) {
+    query.$text = { $search: address };
+  }
 
   const properties = await findProperties(query, limit, sort, skip);
   const pagination = await toDoPagination(Property, { limit, page }, query);

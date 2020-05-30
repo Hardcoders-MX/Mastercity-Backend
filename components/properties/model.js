@@ -115,6 +115,17 @@ const propertySchema = new Schema({
   timestamps: true,
 });
 
+propertySchema.index({
+  'address.country': 'text',
+  'address.state': 'text',
+  'address.townHall': 'text',
+  'address.colony': 'text',
+  'address.postalCode': 'text',
+  'address.street': 'text',
+  'address.outdoorNumber': 'text',
+  'address.interiorNumber': 'text',
+});
+
 const Property = mongoose.model('properties', propertySchema);
 
 module.exports = Property;
