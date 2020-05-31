@@ -27,10 +27,10 @@ const create = async (req, res, next) => {
 const destroy = async (req, res, next) => {
   // eslint-disable-next-line no-underscore-dangle
   const { _id: userId } = req.user._doc;
-  const { propertyId } = req.params.id;
+  const propertyId = req.params.id;
   try {
     const createdFavorite = await serviceFavorites.destroy(userId, propertyId);
-    success(res, 'favorite created', createdFavorite, 201);
+    success(res, 'favorite deleted', createdFavorite, 201);
   } catch (error) {
     next(error);
   }

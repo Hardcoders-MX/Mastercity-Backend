@@ -13,6 +13,10 @@ const favoriteSchema = new Schema({
     required: true,
     ref: 'properties',
   },
+  isDisabled: {
+    type: Boolean,
+    default: false,
+  },
 }, {
   timestamps: true,
 });

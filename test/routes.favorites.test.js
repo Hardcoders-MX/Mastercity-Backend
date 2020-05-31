@@ -9,7 +9,6 @@ const scopesValidationHandlerMock = require('../utils/mocks/scopesValidationHand
 const isOfThisTypeMock = require('../utils/mocks/isOfThisTypeMock');
 
 describe('routes - favorites', () => {
-  const userId = FavoritesMock[0].user;
   const controller = proxyquire('../components/favorites/controller', {
     './service': FavoritesService,
   });
