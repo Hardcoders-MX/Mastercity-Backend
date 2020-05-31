@@ -610,6 +610,176 @@
           }
         }
       }
+    },
+    "/interested" : {
+      "get" : {
+        "tags" : [ "interested" ],
+        "summary" : "List a interested",
+        "description" : "show a list of users interested in properties",
+        "responses" : {
+          "200" : {
+            "description" : "list interested",
+            "schema" : {
+              "type" : "object",
+              "properties" : {
+                "error" : {
+                  "type" : "boolean",
+                  "example" : false
+                },
+                "status" : {
+                  "type" : "number",
+                  "example" : 200
+                },
+                "message" : {
+                  "type" : "string",
+                  "example" : "interested listed"
+                },
+                "body" : {
+                  "type" : "array",
+                  "items" : {
+                    "type" : "object",
+                    "properties" : {
+                      "_id" : {
+                        "type" : "string"
+                      },
+                      "offerer" : {
+                        "type" : "object",
+                        "allOf" : [ {
+                          "$ref" : "#/definitions/User"
+                        } ]
+                      },
+                      "property" : {
+                        "type" : "object",
+                        "allOf" : [ {
+                          "$ref" : "#/definitions/Property"
+                        } ]
+                      },
+                      "applicant" : {
+                        "type" : "object",
+                        "allOf" : [ {
+                          "$ref" : "#/definitions/User"
+                        } ]
+                      },
+                      "createdAt" : {
+                        "type" : "string"
+                      },
+                      "updatedAt" : {
+                        "type" : "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "interested" ],
+        "summary" : "Add interested",
+        "description" : "Add interested it for a property",
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "interested",
+          "schema" : {
+            "type" : "object",
+            "properties" : {
+              "offerer" : {
+                "type" : "string"
+              },
+              "property" : {
+                "type" : "string"
+              }
+            }
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "return with a property interested",
+            "schema" : {
+              "type" : "object",
+              "properties" : {
+                "error" : {
+                  "type" : "boolean",
+                  "example" : false
+                },
+                "status" : {
+                  "type" : "number",
+                  "example" : 201
+                },
+                "message" : {
+                  "type" : "string",
+                  "example" : "interested created"
+                },
+                "body" : {
+                  "type" : "object",
+                  "properties" : {
+                    "_id" : {
+                      "type" : "string"
+                    },
+                    "offerer" : {
+                      "type" : "string"
+                    },
+                    "applicant" : {
+                      "type" : "string"
+                    },
+                    "property" : {
+                      "type" : "string"
+                    },
+                    "createdAt" : {
+                      "type" : "string"
+                    },
+                    "updatedAt" : {
+                      "type" : "string"
+                    },
+                    "isDisable" : {
+                      "type" : "boolean"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/interested/{id}" : {
+      "parameters" : [ {
+        "in" : "path",
+        "name" : "id",
+        "required" : true,
+        "type" : "string"
+      } ],
+      "delete" : {
+        "tags" : [ "interested" ],
+        "summary" : "Delete a interested",
+        "description" : "Delete a interested",
+        "responses" : {
+          "200" : {
+            "description" : "property interested delete",
+            "schema" : {
+              "type" : "object",
+              "properties" : {
+                "error" : {
+                  "type" : "boolean",
+                  "example" : false
+                },
+                "status" : {
+                  "type" : "number",
+                  "example" : 200
+                },
+                "message" : {
+                  "type" : "string",
+                  "example" : "interested deleted"
+                },
+                "body" : {
+                  "type" : "boolean"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "securityDefinitions": {
