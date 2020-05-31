@@ -37,10 +37,7 @@ describe('service - interested', () => {
   describe('when destroy method is called', () => {
     it('should return a deleted interested', async () => {
       const result = await service.destroy(interestedMock[0].applicant);
-      const expected = {
-        ...interestedMock[0],
-        nModified: 1,
-      };
+      const expected = false;
       assert.deepEqual(result, expected);
     });
   });
