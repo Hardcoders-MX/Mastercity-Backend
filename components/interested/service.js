@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 const Interested = require('./model');
 const { FieldsRequiredError, ServerError } = require('../../utils/errors');
 
@@ -13,15 +14,25 @@ class InterestedService {
     const sort = Number(filters.sort) || -1;
     const skip = (Number(filters.page || 1) - 1) * limit;
 
-    const query = { offerer: userId, isDisable: false };
+    const query = { $or: [{ offerer: userId }, { applicant: userId }], isDisable: false };
 
-    const interested = await this.model
+    const preInterested = await this.model
       .find(query)
       .limit(limit)
       .sort({
         [sortName]: sort,
       }).skip(skip)
-      .populate('applicant property');
+      .populate('applicant property offerer');
+
+    const interested = preInterested.map((doc) => {
+      const inter = { ...doc };
+      if (doc._doc && doc._doc.offerer && doc._doc.applicant) {
+        inter._doc.offerer.password = '';
+        inter._doc.applicant.password = '';
+        return inter;
+      }
+      return doc;
+    });
 
     const totalInterested = await this.model.countDocuments(query);
     const pagination = {

@@ -24,7 +24,7 @@ class InterestedRouter extends Router {
     this.get(
       '/',
       this.middlewares.passport.authenticate('jwt', { session: false }),
-      this.middlewares.isOfThisType(['offerer']),
+      this.middlewares.isOfThisType(['applicant', 'offerer']),
       this.controller.index,
     );
 
