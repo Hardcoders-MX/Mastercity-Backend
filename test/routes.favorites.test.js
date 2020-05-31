@@ -6,7 +6,7 @@ const testServer = require('../utils/testServer');
 const { FavoritesService, FavoritesMock } = require('../utils/mocks/FavoritesMock');
 const PassportMock = require('../utils/mocks/PassportMock');
 const scopesValidationHandlerMock = require('../utils/mocks/scopesValidationHandlerMock');
-
+const isOfThisTypeMock = require('../utils/mocks/isOfThisTypeMock');
 
 describe('routes - favorites', () => {
   const userId = FavoritesMock[0].user;
@@ -17,16 +17,17 @@ describe('routes - favorites', () => {
     './controller': controller,
     'passport': PassportMock,
     '../../utils/middleware/scopesValidationHandler': scopesValidationHandlerMock,
+    '../../utils/middleware/isOfThisType': isOfThisTypeMock,
   });
   const request = testServer(router);
 
-  describe('GET /favorites/:user', () => {
+  describe('GET /favorites', () => {
     it('should response with status code 200', (done) => {
-      request.get(`/${userId}`).expect(200, done);
+      request.get('/').expect(200, done);
     });
 
     it('should response with a list of property favorites', (done) => {
-      request.get(`/${userId}`)
+      request.get('/')
         .end((error, res) => {
           assert.deepEqual(res.body, {
             error: false,
