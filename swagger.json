@@ -611,6 +611,206 @@
         }
       }
     },
+    "/uploads" : {
+      "post" : {
+        "tags" : [ "uploads" ],
+        "summary" : "upload video and images",
+        "description" : "can upload a maximun of 5 files",
+        "consumes" : [ "multipart/form-data" ],
+        "parameters" : [ {
+          "in" : "formData",
+          "name" : "media",
+          "type" : "file",
+          "description" : "jpg png jpeg gif or mp4"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "list of files uploaded",
+            "schema" : {
+              "type" : "object",
+              "properties" : {
+                "error" : {
+                  "type" : "boolean",
+                  "example" : false
+                },
+                "status" : {
+                  "type" : "number",
+                  "example" : 200
+                },
+                "message" : {
+                  "type" : "string",
+                  "example" : "media file uploaded"
+                },
+                "body" : {
+                  "type" : "array",
+                  "items" : {
+                    "type" : "object",
+                    "properties" : {
+                      "secure_url" : {
+                        "type" : "string"
+                      },
+                      "resource_type" : {
+                        "type" : "string"
+                      },
+                      "format" : {
+                        "type" : "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/favorites" : {
+      "get" : {
+        "tags" : [ "favorites" ],
+        "summary" : "List a favorites",
+        "description" : "show a list of properties favorites",
+        "responses" : {
+          "200" : {
+            "description" : "list favorites",
+            "schema" : {
+              "type" : "object",
+              "properties" : {
+                "error" : {
+                  "type" : "boolean",
+                  "example" : false
+                },
+                "status" : {
+                  "type" : "number",
+                  "example" : 200
+                },
+                "message" : {
+                  "type" : "string",
+                  "example" : "favorite created"
+                },
+                "body" : {
+                  "type" : "array",
+                  "items" : {
+                    "type" : "object",
+                    "properties" : {
+                      "_id" : {
+                        "type" : "string"
+                      },
+                      "user" : {
+                        "type" : "string"
+                      },
+                      "property" : {
+                        "type" : "object",
+                        "allOf" : [ {
+                          "$ref" : "#/definitions/Property"
+                        } ]
+                      },
+                      "createdAt" : {
+                        "type" : "string"
+                      },
+                      "updatedAt" : {
+                        "type" : "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "favorites" ],
+        "summary" : "Add properties to favorites",
+        "description" : "Add one property to favorites of user",
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "propertyId",
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "return with a property favorited",
+            "schema" : {
+              "type" : "object",
+              "properties" : {
+                "error" : {
+                  "type" : "boolean",
+                  "example" : false
+                },
+                "status" : {
+                  "type" : "number",
+                  "example" : 200
+                },
+                "message" : {
+                  "type" : "string",
+                  "example" : "favorite created"
+                },
+                "body" : {
+                  "type" : "object",
+                  "properties" : {
+                    "_id" : {
+                      "type" : "string"
+                    },
+                    "user" : {
+                      "type" : "string"
+                    },
+                    "property" : {
+                      "type" : "string"
+                    },
+                    "createdAt" : {
+                      "type" : "string"
+                    },
+                    "updatedAt" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/favorites/{id}" : {
+      "parameters" : [ {
+        "in" : "path",
+        "name" : "id",
+        "required" : true,
+        "type" : "string"
+      } ],
+      "delete" : {
+        "tags" : [ "favorites" ],
+        "summary" : "Delete a favorite",
+        "description" : "Delete a favorite",
+        "responses" : {
+          "200" : {
+            "description" : "property favorite delete",
+            "schema" : {
+              "type" : "object",
+              "properties" : {
+                "error" : {
+                  "type" : "boolean",
+                  "example" : false
+                },
+                "status" : {
+                  "type" : "number",
+                  "example" : 200
+                },
+                "message" : {
+                  "type" : "string",
+                  "example" : "favorite deleted"
+                },
+                "body" : {
+                  "type" : "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/interested" : {
       "get" : {
         "tags" : [ "interested" ],
