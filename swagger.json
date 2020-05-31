@@ -15,6 +15,10 @@
     {
       "name": "user",
       "description": "Operations about User"
+    },
+    {
+      "name": "uploads",
+      "description": "Operations about uploads"
     }
   ],
   "schemes": [
@@ -478,7 +482,7 @@
         }
       }
     },
-    "/properties/unapprove" : {
+    "/properties/unapproved" : {
       "get" : {
         "tags" : [ "properties" ],
         "summary" : "Get a list of properties don't approved",
@@ -607,6 +611,59 @@
           },
           "400" : {
             "$ref" : "#/definitions/NotFound"
+          }
+        }
+      }
+    },
+    "/uploads" : {
+      "post" : {
+        "tags" : [ "uploads" ],
+        "summary" : "upload video and images",
+        "description" : "can upload a maximun of 5 files",
+        "consumes" : [ "multipart/form-data" ],
+        "parameters" : [ {
+          "in" : "formData",
+          "name" : "media",
+          "type" : "file",
+          "description" : "jpg png jpeg gif or mp4"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "list of files uploaded",
+            "schema" : {
+              "type" : "object",
+              "properties" : {
+                "error" : {
+                  "type" : "boolean",
+                  "example" : false
+                },
+                "status" : {
+                  "type" : "number",
+                  "example" : 200
+                },
+                "message" : {
+                  "type" : "string",
+                  "example" : "media file uploaded"
+                },
+                "body" : {
+                  "type" : "array",
+                  "items" : {
+                    "type" : "object",
+                    "properties" : {
+                      "secure_url" : {
+                        "type" : "string"
+                      },
+                      "resource_type" : {
+                        "type" : "string"
+                      },
+                      "format" : {
+                        "type" : "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
