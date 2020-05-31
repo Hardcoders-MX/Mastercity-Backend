@@ -24,19 +24,11 @@ class InterestedServiceMock {
 
     return interestedMock[0];
   }
+
+  async destroy(id) {
+    if (id === 'error') throw false;
+    return interestedMock[0];
+  }
 }
 
 module.exports = { InterestedServiceMock, interestedMock };
-
-/*
-
-  async destroy(id) {
-    const params = { isDisable: true };
-
-    const deletedInterested = await this.model.updateOne({ _id: id, isDisable: false }, params);
-
-    if (deletedInterested.nModified !== 1) {
-      throw new ServerError('error to delete interested');
-    }
-    return deletedInterested;
-  } */

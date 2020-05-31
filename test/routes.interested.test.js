@@ -88,4 +88,35 @@ describe('routes - interested', () => {
         });
     });
   });
+
+  describe('DELETE /interested/:id', () => {
+    it('should response with status code 200', (done) => {
+      request
+        .delete(`/${interestedMock[0].offerer}`)
+        .expect(200, done);
+    });
+
+    it('should response with a interested deleted', (done) => {
+      request
+        .delete(`/${interestedMock[0].offerer}`)
+        .end((error, res) => {
+          assert.deepEqual(res.body, {
+            error: false,
+            status: 200,
+            message: 'interested deleted',
+            body: interestedMock[0],
+          });
+          done();
+        });
+    });
+
+    it('should response with a error', (done) => {
+      request
+        .delete('/error')
+        .end((error, res) => {
+          assert.deepEqual(res.body, {});
+          done();
+        });
+    });
+  });
 });
