@@ -29,7 +29,7 @@ class InterestedService {
       if (doc._doc && doc._doc.offerer && doc._doc.applicant) {
         inter._doc.offerer.password = '';
         inter._doc.applicant.password = '';
-        return inter;
+        return inter._doc;
       }
       return doc;
     });
@@ -74,7 +74,7 @@ class InterestedService {
     if (deletedInterested.nModified !== 1) {
       throw new ServerError('error to delete interested');
     }
-    return deletedInterested;
+    return false;
   }
 }
 
