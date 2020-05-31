@@ -53,4 +53,39 @@ describe('routes - interested', () => {
         });
     });
   });
+
+  describe('POST /interested', () => {
+    const { offerer, property } = interestedMock[0];
+    it('should response with status code 201', (done) => {
+      request
+        .post('/')
+        .send({ offerer, property })
+        .expect(201, done);
+    });
+
+    it('should response with a new interested', (done) => {
+      request
+        .post('/')
+        .send({ offerer, property })
+        .end((error, res) => {
+          assert.deepEqual(res.body, {
+            error: false,
+            status: 201,
+            message: 'interested created',
+            body: interestedMock[0],
+          });
+          done();
+        });
+    });
+
+    it('should response with a error', (done) => {
+      request
+        .post('/')
+        .send({})
+        .end((error, res) => {
+          assert.deepEqual(res.body, {});
+          done();
+        });
+    });
+  });
 });

@@ -2,12 +2,10 @@
 /* eslint-disable class-methods-use-this */
 const interestedMock = [
   {
-    isDisabled: false,
-    _id: '123456',
-    user: '523648',
-    property: 'myproperty',
-    createdAt: '',
-    updatedAt: '',
+    offerer: '123456',
+    property: '591378',
+    applicant: '852456',
+    isDisable: false,
   },
 ];
 
@@ -19,31 +17,18 @@ class InterestedServiceMock {
 
     return { interested, pagination };
   }
+
+  async insert(applicantId, interested) {
+    const { offerer, property } = interested;
+    if (!offerer || !property || !applicantId) throw false;
+
+    return interestedMock[0];
+  }
 }
 
 module.exports = { InterestedServiceMock, interestedMock };
 
-/* async insert(applicantId, interested) {
-    const { offerer, property } = interested;
-    const applicant = String(applicantId);
-
-    if (!offerer || !property || !interested) {
-      throw new FieldsRequiredError('all fileds are requires', 400);
-    }
-
-    const query = {
-      offerer,
-      property,
-      applicant,
-      isDisable: false,
-    };
-
-    const existedInterested = await this.model.findOne(query);
-    if (existedInterested !== null) throw new Error('this property added to interested');
-
-    const createdInterested = await this.model.create(query);
-    return createdInterested;
-  }
+/*
 
   async destroy(id) {
     const params = { isDisable: true };
