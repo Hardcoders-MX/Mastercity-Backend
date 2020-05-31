@@ -1,11 +1,24 @@
 const express = require('express');
 const multer = require('multer');
+const passport = require('passport');
 const controller = require('./controller');
+const isOfThisType = require('../../utils/middleware/isOfThisType');
 
 const router = express.Router();
 const upload = multer({ dest: 'uploads/' });
 
-router.post('/', upload.array('media', 5), controller.upload);
-router.get('/:id', controller.show);
+require('../auth/strategies/jwt');
+
+router.post(
+  '/',
+  passport.authenticate('jwt', { session: false }),
+  isOfThisType(['offerer']),
+  upload.array('media', 5),
+  controller.upload,
+);
+router.get(
+  '/:id',
+  controller.show,
+);
 
 module.exports = router;

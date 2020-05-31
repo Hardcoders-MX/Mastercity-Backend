@@ -13,6 +13,8 @@ const validateParams = (params) => {
     'email',
     'password',
     'direction',
+    'phone',
+    'avatar',
     'userType',
     'profileType',
     'isRealEstate',

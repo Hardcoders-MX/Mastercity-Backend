@@ -17,7 +17,7 @@ skip.withArgs(10).returns({ populate: () => populateStub() });
 sort.withArgs().returns({ skip });
 limit.withArgs().returns({ sort });
 findStub.returns({ limit });
-findStub.withArgs({ user: FavoritesMock[0].user }).returns({ populate: populateStub });
+findStub.withArgs({ user: FavoritesMock[0].user, isDisabled: false }).returns({ populate: populateStub });
 
 module.exports = {
   findStub,

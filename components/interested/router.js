@@ -5,40 +5,46 @@ const isOfThisType = require('../../utils/middleware/isOfThisType');
 
 const { Router } = express;
 
+const myMiddlewares = {
+  passport,
+  isOfThisType,
+};
+
 require('../auth/strategies/jwt');
 
 class InterestedRouter extends Router {
-  constructor(app = false, controller = new InterestedController()) {
+  constructor(app = false, controller, middlewares) {
     super();
     this.controller = controller;
+    this.middlewares = middlewares;
     if (app !== false) {
       app.use('/api/interested', this);
     }
 
     this.get(
       '/',
-      passport.authenticate('jwt', { session: false }),
-      isOfThisType(['offerer']),
+      this.middlewares.passport.authenticate('jwt', { session: false }),
+      this.middlewares.isOfThisType(['applicant', 'offerer']),
       this.controller.index,
     );
 
     this.post(
       '/',
-      passport.authenticate('jwt', { session: false }),
-      isOfThisType(['applicant']),
+      this.middlewares.passport.authenticate('jwt', { session: false }),
+      this.middlewares.isOfThisType(['applicant']),
       this.controller.create,
     );
 
     this.delete(
       '/:id',
-      passport.authenticate('jwt', { session: false }),
-      isOfThisType(['applicant']),
+      this.middlewares.passport.authenticate('jwt', { session: false }),
+      this.middlewares.isOfThisType(['applicant']),
       this.controller.destroy,
     );
   }
 }
 
-const interestedRouter = new InterestedRouter();
+const interestedRouter = new InterestedRouter(false, new InterestedController(), myMiddlewares);
 
 module.exports = {
   InterestedRouter,
