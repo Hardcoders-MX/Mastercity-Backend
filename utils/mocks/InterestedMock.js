@@ -1,13 +1,12 @@
+/* eslint-disable max-classes-per-file */
 /* eslint-disable no-throw-literal */
 /* eslint-disable class-methods-use-this */
-const interestedMock = [
-  {
-    offerer: '123456',
-    property: '591378',
-    applicant: '852456',
-    isDisable: false,
-  },
-];
+const interestedMock = [{
+  offerer: '123456',
+  property: '591378',
+  applicant: '852456',
+  isDisable: false,
+}];
 
 class InterestedServiceMock {
   async findAll(userId, filters) {
@@ -31,4 +30,45 @@ class InterestedServiceMock {
   }
 }
 
-module.exports = { InterestedServiceMock, interestedMock };
+class InterestedModelMock {
+  constructor() {
+    this.countDocuments = this.countDocuments.bind(this);
+    this.populate = this.populate.bind(this);
+    this.skip = this.skip.bind(this);
+    this.sort = this.sort.bind(this);
+    this.limit = this.limit.bind(this);
+    this.find = this.find.bind(this);
+  }
+
+  countDocuments() {
+    return interestedMock.length;
+  }
+
+  populate() {
+    return interestedMock;
+  }
+
+  skip() {
+    return { populate: this.populate };
+  }
+
+  sort() {
+    return { skip: this.skip };
+  }
+
+  limit() {
+    return { sort: this.sort };
+  }
+
+  find() {
+    return { limit: this.limit };
+  }
+
+  findOne() {}
+
+  create() {}
+
+  updateOne() {}
+}
+
+module.exports = { InterestedServiceMock, InterestedModelMock, interestedMock };
