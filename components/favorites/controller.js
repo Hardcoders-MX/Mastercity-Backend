@@ -29,8 +29,8 @@ const destroy = async (req, res, next) => {
   const { _id: userId } = req.user._doc;
   const propertyId = req.params.id;
   try {
-    const createdFavorite = await serviceFavorites.destroy(userId, propertyId);
-    success(res, 'favorite deleted', createdFavorite, 201);
+    const deletedFavorite = await serviceFavorites.destroy(userId, propertyId);
+    success(res, 'favorite deleted', deletedFavorite, 201);
   } catch (error) {
     next(error);
   }
