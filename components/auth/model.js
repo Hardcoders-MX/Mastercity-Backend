@@ -5,23 +5,31 @@ const { Schema } = mongoose;
 const userSchema = new Schema({
   firstName: {
     type: String,
-    default: true,
+    required: true,
   },
   lastName: {
     type: String,
-    default: true,
+    required: true,
   },
   email: {
     type: String,
-    default: true,
+    required: true,
   },
   password: {
     type: String,
-    default: true,
+    required: true,
   },
   direction: {
     type: String,
-    default: true,
+    required: true,
+  },
+  phone: {
+    type: String,
+    required: true,
+  },
+  avatar: {
+    type: String,
+    required: false,
   },
   profileType: {
     type: String,

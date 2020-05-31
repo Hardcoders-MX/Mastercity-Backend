@@ -134,6 +134,8 @@
                   "email": "string",
                   "password": "",
                   "direction": "string",
+                  "phone": "string",
+                  "avatar": "string",
                   "profileType": "string",
                   "_id": "ObjectId",
                   "isRealEstate": "boolean",
@@ -1072,6 +1074,8 @@
         "lastName",
         "email",
         "password",
+        "direction",
+        "phone",
         "profileType"
       ],
       "properties": {
@@ -1085,6 +1089,12 @@
           "type": "string"
         },
         "password": {
+          "type": "string"
+        },
+        "direction": {
+          "type": "string"
+        },
+        "phone": {
           "type": "string"
         },
         "profileType": {
