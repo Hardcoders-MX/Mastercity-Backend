@@ -15,6 +15,22 @@
     {
       "name": "user",
       "description": "Operations about User"
+    },
+    {
+      "name": "properties",
+      "description": "Operations about properties"
+    },
+    {
+      "name": "uploads",
+      "description": "Operations about uploads"
+    },
+    {
+      "name": "favorites",
+      "description": "Operations about favorites"
+    },
+    {
+      "name": "interested",
+      "description": "Operations about interested"
     }
   ],
   "schemes": [
@@ -478,7 +494,7 @@
         }
       }
     },
-    "/properties/unapprove" : {
+    "/properties/unapproved" : {
       "get" : {
         "tags" : [ "properties" ],
         "summary" : "Get a list of properties don't approved",
