@@ -64,9 +64,13 @@ class InterestedModelMock {
     return { limit: this.limit };
   }
 
-  findOne() {}
+  findOne() {
+    return null;
+  }
 
-  create() {}
+  create() {
+    return interestedMock[0];
+  }
 
   updateOne() {}
 }

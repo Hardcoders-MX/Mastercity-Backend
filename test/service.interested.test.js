@@ -21,4 +21,16 @@ describe('service - interested', () => {
       assert.deepEqual(result, expected);
     });
   });
+
+  describe('when inser method is called', () => {
+    it('should return a new interested', async () => {
+      const interested = {
+        offerer: interestedMock[0].offerer,
+        property: interestedMock[0].property,
+      };
+      const result = await service.insert(interestedMock[0].applicant, interested);
+      const expected = interestedMock[0];
+      assert.deepEqual(result, expected);
+    });
+  });
 });
