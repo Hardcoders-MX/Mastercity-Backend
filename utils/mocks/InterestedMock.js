@@ -72,7 +72,12 @@ class InterestedModelMock {
     return interestedMock[0];
   }
 
-  updateOne() {}
+  updateOne() {
+    return {
+      ...interestedMock[0],
+      nModified: 1,
+    };
+  }
 }
 
 module.exports = { InterestedServiceMock, InterestedModelMock, interestedMock };

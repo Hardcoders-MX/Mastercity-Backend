@@ -22,7 +22,7 @@ describe('service - interested', () => {
     });
   });
 
-  describe('when inser method is called', () => {
+  describe('when insert method is called', () => {
     it('should return a new interested', async () => {
       const interested = {
         offerer: interestedMock[0].offerer,
@@ -30,6 +30,17 @@ describe('service - interested', () => {
       };
       const result = await service.insert(interestedMock[0].applicant, interested);
       const expected = interestedMock[0];
+      assert.deepEqual(result, expected);
+    });
+  });
+
+  describe('when destroy method is called', () => {
+    it('should return a deleted interested', async () => {
+      const result = await service.destroy(interestedMock[0].applicant);
+      const expected = {
+        ...interestedMock[0],
+        nModified: 1,
+      };
       assert.deepEqual(result, expected);
     });
   });
