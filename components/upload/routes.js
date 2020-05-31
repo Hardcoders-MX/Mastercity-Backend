@@ -12,7 +12,7 @@ require('../auth/strategies/jwt');
 router.post(
   '/',
   passport.authenticate('jwt', { session: false }),
-  isOfThisType(['offerer']),
+  isOfThisType(['offerer', 'applicant', 'admin']),
   upload.array('media', 5),
   controller.upload,
 );
