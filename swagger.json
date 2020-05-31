@@ -89,6 +89,67 @@
         }
       }
     },
+    "/sign-in": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Login",
+        "description": "This option has no route protection.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "Username",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "Password",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "token": {
+                  "type": "boolean"
+                },
+                "user": {
+                  "type": "object"
+                }
+              },
+              "example": {
+                "token": "JWT",
+                "user": {
+                  "firstName": "string",
+                  "lastName": "string",
+                  "email": "string",
+                  "password": "",
+                  "direction": "string",
+                  "profileType": "string",
+                  "_id": "ObjectId",
+                  "isRealEstate": "boolean",
+                  "isDisable": "bolean"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BasicAuth": []
+          }
+        ]
+      }
+    },
     "/users/{id}": {
       "get": {
         "tags": [
