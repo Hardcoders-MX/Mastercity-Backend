@@ -44,15 +44,9 @@ describe('service - favorites', () => {
   });
 
   describe('when insert method is called', async () => {
-    it('should call the findOne, create MongoLib Method', async () => {
-      await service.insert(userId, propertyId);
-      assert.strictEqual(findOneStub.called, true);
-      assert.strictEqual(createStub.called, true);
-    });
-
     it('should return a property favorite', async () => {
       const result = await service.insert(userId, propertyId);
-      const expected = FavoritesMock[0];
+      const expected = 'This property was add to favorites';
       assert.deepEqual(result, expected);
     });
 
