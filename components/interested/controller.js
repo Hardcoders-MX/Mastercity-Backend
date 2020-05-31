@@ -27,7 +27,7 @@ class InterestedController {
     const interested = req.body;
     try {
       const createdInterested = await this.service.insert(applicantId, interested);
-      success(res, 'interested listed', createdInterested, 200);
+      success(res, 'interested created', createdInterested, 201);
     } catch (error) {
       next(error);
     }

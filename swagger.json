@@ -15,6 +15,22 @@
     {
       "name": "user",
       "description": "Operations about User"
+    },
+    {
+      "name": "properties",
+      "description": "Operations about properties"
+    },
+    {
+      "name": "uploads",
+      "description": "Operations about uploads"
+    },
+    {
+      "name": "favorites",
+      "description": "Operations about favorites"
+    },
+    {
+      "name": "interested",
+      "description": "Operations about interested"
     }
   ],
   "schemes": [
@@ -71,6 +87,69 @@
             }
           }
         }
+      }
+    },
+    "/sign-in": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Login",
+        "description": "This option has no route protection.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "Username",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "Password",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "token": {
+                  "type": "boolean"
+                },
+                "user": {
+                  "type": "object"
+                }
+              },
+              "example": {
+                "token": "JWT",
+                "user": {
+                  "firstName": "string",
+                  "lastName": "string",
+                  "email": "string",
+                  "password": "",
+                  "direction": "string",
+                  "phone": "string",
+                  "avatar": "string",
+                  "profileType": "string",
+                  "_id": "ObjectId",
+                  "isRealEstate": "boolean",
+                  "isDisable": "bolean"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BasicAuth": []
+          }
+        ]
       }
     },
     "/users/{id}": {
@@ -478,7 +557,7 @@
         }
       }
     },
-    "/properties/unapprove" : {
+    "/properties/unapproved" : {
       "get" : {
         "tags" : [ "properties" ],
         "summary" : "Get a list of properties don't approved",
@@ -610,6 +689,376 @@
           }
         }
       }
+    },
+    "/uploads" : {
+      "post" : {
+        "tags" : [ "uploads" ],
+        "summary" : "upload video and images",
+        "description" : "can upload a maximun of 5 files",
+        "consumes" : [ "multipart/form-data" ],
+        "parameters" : [ {
+          "in" : "formData",
+          "name" : "media",
+          "type" : "file",
+          "description" : "jpg png jpeg gif or mp4"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "list of files uploaded",
+            "schema" : {
+              "type" : "object",
+              "properties" : {
+                "error" : {
+                  "type" : "boolean",
+                  "example" : false
+                },
+                "status" : {
+                  "type" : "number",
+                  "example" : 200
+                },
+                "message" : {
+                  "type" : "string",
+                  "example" : "media file uploaded"
+                },
+                "body" : {
+                  "type" : "array",
+                  "items" : {
+                    "type" : "object",
+                    "properties" : {
+                      "secure_url" : {
+                        "type" : "string"
+                      },
+                      "resource_type" : {
+                        "type" : "string"
+                      },
+                      "format" : {
+                        "type" : "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/favorites" : {
+      "get" : {
+        "tags" : [ "favorites" ],
+        "summary" : "List a favorites",
+        "description" : "show a list of properties favorites",
+        "responses" : {
+          "200" : {
+            "description" : "list favorites",
+            "schema" : {
+              "type" : "object",
+              "properties" : {
+                "error" : {
+                  "type" : "boolean",
+                  "example" : false
+                },
+                "status" : {
+                  "type" : "number",
+                  "example" : 200
+                },
+                "message" : {
+                  "type" : "string",
+                  "example" : "favorite created"
+                },
+                "body" : {
+                  "type" : "array",
+                  "items" : {
+                    "type" : "object",
+                    "properties" : {
+                      "_id" : {
+                        "type" : "string"
+                      },
+                      "user" : {
+                        "type" : "string"
+                      },
+                      "property" : {
+                        "type" : "object",
+                        "allOf" : [ {
+                          "$ref" : "#/definitions/Property"
+                        } ]
+                      },
+                      "createdAt" : {
+                        "type" : "string"
+                      },
+                      "updatedAt" : {
+                        "type" : "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "favorites" ],
+        "summary" : "Add properties to favorites",
+        "description" : "Add one property to favorites of user",
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "propertyId",
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "return with a property favorited",
+            "schema" : {
+              "type" : "object",
+              "properties" : {
+                "error" : {
+                  "type" : "boolean",
+                  "example" : false
+                },
+                "status" : {
+                  "type" : "number",
+                  "example" : 200
+                },
+                "message" : {
+                  "type" : "string",
+                  "example" : "favorite created"
+                },
+                "body" : {
+                  "type" : "object",
+                  "properties" : {
+                    "_id" : {
+                      "type" : "string"
+                    },
+                    "user" : {
+                      "type" : "string"
+                    },
+                    "property" : {
+                      "type" : "string"
+                    },
+                    "createdAt" : {
+                      "type" : "string"
+                    },
+                    "updatedAt" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/favorites/{id}" : {
+      "parameters" : [ {
+        "in" : "path",
+        "name" : "id",
+        "required" : true,
+        "type" : "string"
+      } ],
+      "delete" : {
+        "tags" : [ "favorites" ],
+        "summary" : "Delete a favorite",
+        "description" : "Delete a favorite",
+        "responses" : {
+          "200" : {
+            "description" : "property favorite delete",
+            "schema" : {
+              "type" : "object",
+              "properties" : {
+                "error" : {
+                  "type" : "boolean",
+                  "example" : false
+                },
+                "status" : {
+                  "type" : "number",
+                  "example" : 200
+                },
+                "message" : {
+                  "type" : "string",
+                  "example" : "favorite deleted"
+                },
+                "body" : {
+                  "type" : "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/interested" : {
+      "get" : {
+        "tags" : [ "interested" ],
+        "summary" : "List a interested",
+        "description" : "show a list of users interested in properties",
+        "responses" : {
+          "200" : {
+            "description" : "list interested",
+            "schema" : {
+              "type" : "object",
+              "properties" : {
+                "error" : {
+                  "type" : "boolean",
+                  "example" : false
+                },
+                "status" : {
+                  "type" : "number",
+                  "example" : 200
+                },
+                "message" : {
+                  "type" : "string",
+                  "example" : "interested listed"
+                },
+                "body" : {
+                  "type" : "array",
+                  "items" : {
+                    "type" : "object",
+                    "properties" : {
+                      "_id" : {
+                        "type" : "string"
+                      },
+                      "offerer" : {
+                        "type" : "object",
+                        "allOf" : [ {
+                          "$ref" : "#/definitions/User"
+                        } ]
+                      },
+                      "property" : {
+                        "type" : "object",
+                        "allOf" : [ {
+                          "$ref" : "#/definitions/Property"
+                        } ]
+                      },
+                      "applicant" : {
+                        "type" : "object",
+                        "allOf" : [ {
+                          "$ref" : "#/definitions/User"
+                        } ]
+                      },
+                      "createdAt" : {
+                        "type" : "string"
+                      },
+                      "updatedAt" : {
+                        "type" : "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "interested" ],
+        "summary" : "Add interested",
+        "description" : "Add interested it for a property",
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "interested",
+          "schema" : {
+            "type" : "object",
+            "properties" : {
+              "offerer" : {
+                "type" : "string"
+              },
+              "property" : {
+                "type" : "string"
+              }
+            }
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "return with a property interested",
+            "schema" : {
+              "type" : "object",
+              "properties" : {
+                "error" : {
+                  "type" : "boolean",
+                  "example" : false
+                },
+                "status" : {
+                  "type" : "number",
+                  "example" : 201
+                },
+                "message" : {
+                  "type" : "string",
+                  "example" : "interested created"
+                },
+                "body" : {
+                  "type" : "object",
+                  "properties" : {
+                    "_id" : {
+                      "type" : "string"
+                    },
+                    "offerer" : {
+                      "type" : "string"
+                    },
+                    "applicant" : {
+                      "type" : "string"
+                    },
+                    "property" : {
+                      "type" : "string"
+                    },
+                    "createdAt" : {
+                      "type" : "string"
+                    },
+                    "updatedAt" : {
+                      "type" : "string"
+                    },
+                    "isDisable" : {
+                      "type" : "boolean"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/interested/{id}" : {
+      "parameters" : [ {
+        "in" : "path",
+        "name" : "id",
+        "required" : true,
+        "type" : "string"
+      } ],
+      "delete" : {
+        "tags" : [ "interested" ],
+        "summary" : "Delete a interested",
+        "description" : "Delete a interested",
+        "responses" : {
+          "200" : {
+            "description" : "property interested delete",
+            "schema" : {
+              "type" : "object",
+              "properties" : {
+                "error" : {
+                  "type" : "boolean",
+                  "example" : false
+                },
+                "status" : {
+                  "type" : "number",
+                  "example" : 200
+                },
+                "message" : {
+                  "type" : "string",
+                  "example" : "interested deleted"
+                },
+                "body" : {
+                  "type" : "boolean"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "securityDefinitions": {
@@ -625,6 +1074,8 @@
         "lastName",
         "email",
         "password",
+        "direction",
+        "phone",
         "profileType"
       ],
       "properties": {
@@ -638,6 +1089,12 @@
           "type": "string"
         },
         "password": {
+          "type": "string"
+        },
+        "direction": {
+          "type": "string"
+        },
+        "phone": {
           "type": "string"
         },
         "profileType": {
